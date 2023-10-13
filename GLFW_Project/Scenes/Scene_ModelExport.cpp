@@ -2,11 +2,11 @@
 #include "Scene_ModelExport.h"
 
 Scene_ModelExport::Scene_ModelExport() {
-	string model_name = "Archer";
+	string model_name = "PotMan";
 	 // Model
-	//ModelExporter* exporter = new ModelExporter();
-	//exporter->ExportModel(model_name);
-	//SAFE_DELETE(exporter);
+	ModelExporter* exporter = new ModelExporter();
+	exporter->ExportModel(model_name);
+	SAFE_DELETE(exporter);
 
 	 // Anim
 	//string anim_name = "HappyIdle";
@@ -15,7 +15,9 @@ Scene_ModelExport::Scene_ModelExport() {
 	//SAFE_DELETE(exporter);
 
 	model = new ModelAnimator(model_name);
-	//model->ReadClip(anim_name);
+	model->ReadClip("HappyIdle");
+	model->PlayClip(0);
+	model->Load();
 }
 Scene_ModelExport::~Scene_ModelExport() {
 	SAFE_DELETE(model);

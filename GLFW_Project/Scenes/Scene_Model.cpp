@@ -3,8 +3,8 @@
 
 Scene_Model::Scene_Model() {
 	model = new ModelAnimator("PotMan");
-	model->ReadClip("HappyIdle", 0);
 	model->ReadClip("DancingTwerk", 0);
+	//model->ReadClip("HappyIdle", 0);
 	model->PlayClip(0);
 	model->Load();
 }

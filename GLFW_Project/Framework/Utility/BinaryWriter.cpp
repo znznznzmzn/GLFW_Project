@@ -12,9 +12,12 @@ void BinaryWriter::CloseFile() { file.close(); }
 
 void BinaryWriter::WriteLine(string line) { 
 	if (line.find("\n") == string::npos) line += "\n";
-	file.write(line.c_str(), line.size());
+	WriteLinePure(line);
 }
+void BinaryWriter::WriteLinePure(string line) { file.write(line.c_str(), line.size()); }
+
 void BinaryWriter::WriteByte(void* data, uint dataSize) { 
-	file.write((char*)data, dataSize); 
+	WriteBytePure(data, dataSize);
 	file << "\n";
 }
+void BinaryWriter::WriteBytePure(void* data, uint dataSize) { file.write((char*)data, dataSize); }

@@ -230,30 +230,26 @@ void ModelExporter::ExtractKeyFrame(Clip* clip, aiNode* node, vector<ClipNode>& 
 
 string ModelExporter::CreateTexture(string aiPath) {
 	if (aiPath.length() == 0) return "";
-	string savePath = "Assets/Models/BinaryModels/" + data->model_name + "/";
+	string folderPath = "Assets/Models/BinaryModels/" + data->model_name + "/";
 	string file = Utility::String::GetFileNameWidthoutExtension(aiPath) + ".png";
-	string path = savePath + file;
+	string path = folderPath + file;
 
 	BinaryWriter* w = new BinaryWriter(path);
-	if (w->isFileOpened()) {
-		SAFE_DELETE(w);
-		return savePath + file; 
-	}
-
-	filesystem::create_directories(savePath);
-
-	const aiTexture* texture = scene->GetEmbeddedTexture(file.c_str());
-
-	if (texture == nullptr) return "";
-
-	if (texture->mHeight < 1) {
+	if (!w->isFileOpened()) {
+		filesystem::create_directories(folderPath);
 		w->OpenFile(path);
-		w->WriteByte(texture->pcData, texture->mWidth);
-		SAFE_DELETE(w);
 	}
-	else 
-		stbi_write_png(path.c_str(), texture->mWidth, texture->mHeight, 3, texture->pcData, texture->mWidth * 3);
+
+	const aiTexture* texture = scene->GetEmbeddedTexture(aiPath.c_str());
 	
+	if (texture->mHeight < 1)
+		w->WriteBytePure(texture->pcData, texture->mWidth);
+	else {
+		SAFE_DELETE(w);
+		stbi_write_png(path.c_str(), texture->mWidth, texture->mHeight, 3, texture->pcData, texture->mWidth * 3);
+	}
+
+	SAFE_DELETE(w);
 
 	return path;
 }
