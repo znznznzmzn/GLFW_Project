@@ -42,51 +42,51 @@ layout(location = 4) out vec3 frag_binormal;
 layout(location = 5) out vec3 frag_viewpos;
 layout(location = 6) out vec3 frag_worldpos;
 
-mat4 Lerp(mat4 s, mat4 e, float t) { return s + (e - s) * t; }
+mat4 Lerp(mat4 s, mat4 e, float t) { return (s * (1.0 - t)) + (e * t); }
 mat4 SkinWorld(vec4 indices, vec4 weights) {
-	mat4 transform = mat4(1);
+	mat4 transform = mat4(0);
 	mat4 cur, next;
 	mat4 curAnim, nextAnim;
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; i += 1) {
 		uint curFrame = motion.cur.curFrame;
 		int clip = motion.cur.clip;
 		cur = mat4(
-			texelFetch(transformMap, ivec3(indices[i] * 4 + 0, curFrame, clip), 0), 
-			texelFetch(transformMap, ivec3(indices[i] * 4 + 1, curFrame, clip), 0), 
-			texelFetch(transformMap, ivec3(indices[i] * 4 + 2, curFrame, clip), 0), 
-			texelFetch(transformMap, ivec3(indices[i] * 4 + 3, curFrame, clip), 0));
+			texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 0, int(curFrame), clip), 0), 
+			texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 1, int(curFrame), clip), 0), 
+			texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 2, int(curFrame), clip), 0), 
+			texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 3, int(curFrame), clip), 0));
 		next = mat4(
-			texelFetch(transformMap, ivec3(indices[i] * 4 + 0, curFrame + 1, clip), 0),
-			texelFetch(transformMap, ivec3(indices[i] * 4 + 1, curFrame + 1, clip), 0),
-			texelFetch(transformMap, ivec3(indices[i] * 4 + 2, curFrame + 1, clip), 0),
-			texelFetch(transformMap, ivec3(indices[i] * 4 + 3, curFrame + 1, clip), 0));
+			texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 0, int(curFrame + 1), clip), 0),
+			texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 1, int(curFrame + 1), clip), 0),
+			texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 2, int(curFrame + 1), clip), 0),
+			texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 3, int(curFrame + 1), clip), 0));
 		curAnim = Lerp(cur, next, motion.cur.time);
 		
 		curFrame = motion.next.curFrame;
 		clip = motion.next.clip;
 		if (clip > -1) {
 			cur = mat4(
-				texelFetch(transformMap, ivec3(indices[i] * 4 + 0, curFrame, clip), 0), 
-				texelFetch(transformMap, ivec3(indices[i] * 4 + 1, curFrame, clip), 0), 
-				texelFetch(transformMap, ivec3(indices[i] * 4 + 2, curFrame, clip), 0), 
-				texelFetch(transformMap, ivec3(indices[i] * 4 + 3, curFrame, clip), 0));
+				texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 0, int(curFrame), clip), 0), 
+				texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 1, int(curFrame), clip), 0), 
+				texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 2, int(curFrame), clip), 0), 
+				texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 3, int(curFrame), clip), 0));
 			next = mat4(
-				texelFetch(transformMap, ivec3(indices[i] * 4 + 0, curFrame + 1, clip), 0),
-				texelFetch(transformMap, ivec3(indices[i] * 4 + 1, curFrame + 1, clip), 0),
-				texelFetch(transformMap, ivec3(indices[i] * 4 + 2, curFrame + 1, clip), 0),
-				texelFetch(transformMap, ivec3(indices[i] * 4 + 3, curFrame + 1, clip), 0));
+				texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 0, int(curFrame + 1), clip), 0),
+				texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 1, int(curFrame + 1), clip), 0),
+				texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 2, int(curFrame + 1), clip), 0),
+				texelFetch(transformMap, ivec3(int(indices[i]) * 4 + 3, int(curFrame + 1), clip), 0));
 			nextAnim = Lerp(cur, next, motion.next.time);
 			curAnim = Lerp(curAnim, nextAnim, motion.tweenTime);
 		}
 		transform += curAnim * weights[i];
 	}
 	
-	return world * transform;
+	return transform;
 }
 
 void main() {
-	mat4 transform = SkinWorld(in_indices, in_weights);
+	mat4 transform = world * SkinWorld(in_indices, in_weights);
 
 	frag_pos = transform * vec4(in_pos, 1.0);
 	frag_worldpos = frag_pos.xyz;

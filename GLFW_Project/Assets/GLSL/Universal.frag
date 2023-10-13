@@ -47,7 +47,7 @@ vec4 Mapping_Diffuse(vec2 uv) {
 }
 vec4 Mapping_Specular(vec2 uv) {
 	if(hasSpecular) return texture(specularMap, uv) * specular;
-	return vec4(1.0, 1.0, 1.0, 1.0);
+	return specular;
 }
 vec3 Mapping_Normal(vec3 T, vec3 B, vec3 N, vec2 uv) {
 	T = normalize(T);

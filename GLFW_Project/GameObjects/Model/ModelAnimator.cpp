@@ -22,7 +22,7 @@ void ModelAnimator::CreateClipTexture() {
 
 	// generate virtual texture
 	glGenTextures(1, &transformMapBuffer->texture_id);
-	transformMapBuffer->width  = max_bone;
+	transformMapBuffer->width  = max_bone * 4; // Matrix == Vector4 * 4
 	transformMapBuffer->height = max_frame;
 	transformMapBuffer->count  = clipCount;
 	transformMapBuffer->slot = 3;
@@ -53,7 +53,7 @@ void ModelAnimator::CreateClipTexture() {
 			transformMapBuffer->width,  // width
 			transformMapBuffer->height, // height
 			1, // depth
-			GL_RGBA32F,	//format
+			GL_RGBA,	//format
 			GL_FLOAT,	//type
 			pixel);		//pointer to data
 		free(pixel);
@@ -164,10 +164,25 @@ void ModelAnimator::SetUniformBuffer() {
 }
 
 void ModelAnimator::GUIRender() {
-	int clip = fBuffer->data.cur.clip;
-	if (ImGui::SliderInt("Clip", &clip, 0, clips.size() - 1)) PlayClip(clip);
-	ImGui::SliderInt("Frame", (int*)&fBuffer->data.cur.curFrame, 0, clips[clip]->frameCount - 1);
-	Model::GUIRender();
+	if (ImGui::TreeNode(tag.c_str())) {
+		int clip = fBuffer->data.cur.clip;
+
+		if (ImGui::Button("Play")) PlayClip(clip);
+		ImGui::SameLine();
+		if (ImGui::Button("Pause")) isPlay = false;
+		ImGui::SameLine();
+		if (ImGui::Button("Resume")) isPlay = true;
+		
+		if (ImGui::SliderInt("Clip", &clip, 0, clips.size() - 1)) PlayClip(clip);
+		ImGui::SliderInt("Frame", (int*)&fBuffer->data.cur.curFrame, 0, clips[clip]->frameCount - 1);
+		ImGui::Text(("model_name : " + data->model_name).c_str());
+		char name_buf[128] = "";
+		if (ImGui::InputTextWithHint("Tag", tag.c_str(), name_buf, IM_ARRAYSIZE(name_buf)))
+			if (KEY_DOWN(ImGuiKey_Enter)) tag = string(name_buf);
+		Transform::GUIRender();
+		for (auto elem : render_map) elem.first->GUIRender();
+		ImGui::TreePop();
+	}
 }
 
 void ModelAnimator::ReadClip(string clipName, uint clipNum) {

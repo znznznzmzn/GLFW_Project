@@ -39,7 +39,7 @@ void Model::Render() {
 	if (!Active()) return;
 	wBuffer->data = world;
 	for (auto elem : render_map) {
-		elem.first->Set();
+		elem.first->Set(); // Material(Shader) Set
 		SetUniformBuffer();
 		for (ModelMesh*& mesh : elem.second) {
 			mesh->Set();

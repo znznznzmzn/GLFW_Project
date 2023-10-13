@@ -1,7 +1,6 @@
 #pragma once
 
 class Scene_Model : public Scene {
-	GameObject* obj;
 	ModelAnimator* model;
 public:
 	Scene_Model();

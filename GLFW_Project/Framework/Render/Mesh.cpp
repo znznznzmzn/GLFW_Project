@@ -104,7 +104,10 @@ UniversalMesh::UniversalMesh(
 	glBindVertexArray(0);
 }
 
-ModelMesh::ModelMesh(const vector<ModelVertex>& vertices, const vector<uint>& indices) {
+ModelMesh::ModelMesh(
+	const vector<ModelVertex>& vertices, 
+	const vector<uint>& indices) :
+	Mesh<ModelVertex>() {
 	index_count = indices.size();
 
 	glBindVertexArray(VertexArrayBuffer);
