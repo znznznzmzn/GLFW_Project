@@ -9,13 +9,6 @@ struct Vertex2D { // 2D용 - 아직 확실하게 구성은 불가(Rotation, Size등)
 	Vertex2D(float x, float y, float u, float v, float rot) : pos(x, y), uv(u, v), rot(rot) { }
 };
 
-struct VertexPosition { // 위치만
-	Vector3 pos;
-	VertexPosition() : pos(0, 0, 0) { }
-	VertexPosition(Vector3 pos) : pos(pos) { }
-	VertexPosition(float x, float y, float z) : pos(x, y, z) { }
-};
-
 struct VertexColor { // 색만
 	Vector3 pos;
 	Vector4 color;

@@ -37,7 +37,7 @@ void ModelNode::LoadModel(string model_name) {
 		parts_map[elem->name] = parts;
 	}
 
-	int n = data->nodes.size();
+	uint n = data->nodes.size();
 	vector<Matrix> nodeTransforms;
 	nodeTransforms.resize(n);
 	for (uint i = 0; i < n; i++) { // 노드대로 transform 설정 및 parents 구성

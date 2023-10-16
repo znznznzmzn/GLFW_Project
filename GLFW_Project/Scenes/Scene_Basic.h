@@ -3,6 +3,8 @@
 class Scene_Basic : public Scene {
 private:
 	GameObject* obj;
+	CubeMap* cube_map;
+	//ColorSky* color_sky;
 public:
 	Scene_Basic();
 	~Scene_Basic();

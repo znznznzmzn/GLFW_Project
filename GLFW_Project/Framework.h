@@ -162,6 +162,9 @@ typedef function<void()> Event;
 #include "GameObjects/Landscape/Terrain.h"
 #include "GameObjects/Landscape/TerrainEditor.h"
 
+#include "GameObjects/Landscape/ColorSky.h"
+#include "GameObjects/Landscape/CubeMap.h"
+
 #include "GameObjects/Model/Model.h"
 #include "GameObjects/Model/ModelNode.h"
 #include "GameObjects/Model/ModelBone.h"

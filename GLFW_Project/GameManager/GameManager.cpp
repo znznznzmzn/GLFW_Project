@@ -23,11 +23,11 @@ GameManager::GameManager() {
 
 	// GlobalBuffer가(View, Projection 등) 모든 쉐이더에 Bind되도록 설정
 	for (auto elem : Shader::GetShaders()) {
-		MAIN_CAMERA->GetViewBuffer()->Bind(elem.second->Get_ProgramID());
-		MAIN_CAMERA->GetProjectionBuffer()->Bind(elem.second->Get_ProgramID());
-		if (elem.second->Get_Key().find("Grid"    ) == string::npos && 
-			elem.second->Get_Key().find("Collider") == string::npos)
-			MAIN_LIGHT->Bind(elem.second->Get_ProgramID());
+		MAIN_CAMERA->Bind(elem.second->Get_ProgramID()); // 카메라 View, Porjection 바인딩
+		if (elem.second->Get_Key().find("Grid"    ) == string::npos && // 라이트를 계산할 필요 없는 쉐이더들은
+			elem.second->Get_Key().find("Collider") == string::npos && // 바인드 할 필요가 없음
+			elem.second->Get_Key().find("Sky") == string::npos)
+			MAIN_LIGHT->Bind(elem.second->Get_ProgramID()); // 라이트 쉐이더 바인딩
 	}
 }
 GameManager::~GameManager() { Delete(); }
@@ -49,19 +49,20 @@ void GameManager::Render() {
 	ImGui_ImplGlfw_NewFrame(); 
 	ImGui::NewFrame();
 	if (KEY_DOWN(ImGuiKey_F1)) EditorMode = !EditorMode;
-	if (EditorMode) {
+	if (EditorMode) { 
 		ImGui::Begin("Inspector", &EditorMode);
 		ENVIRONMENT->GUIRender();
 		SCENE->GUIRender();
 		ImGui::End();
 	}
+	// if (KEY_DOWN(ImGuiKey_F2)) ; //- 텍스처 리소스 관리
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 void GameManager::Create() {
 	Environment::Get();
-	Texture::Start();
+	Texture::Init();
 }
 
 void GameManager::Delete() {

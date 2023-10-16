@@ -20,7 +20,7 @@ void ModelAnimator::CreateClipTexture() {
 	}
 	for (uint i = 0; i < clipCount; i++) CreateClipTransform(i);
 
-	// generate virtual texture
+	// Gegenerate virtual texture
 	glGenTextures(1, &transformMapBuffer->texture_id);
 	transformMapBuffer->width  = max_bone * 4; // Matrix == Vector4 * 4
 	transformMapBuffer->height = max_frame;
@@ -29,7 +29,13 @@ void ModelAnimator::CreateClipTexture() {
 	glActiveTexture(GL_TEXTURE0 + transformMapBuffer->slot);
 	glBindTexture(GL_TEXTURE_2D_ARRAY, transformMapBuffer->texture_id);
 
-	 // Create storage for the texture.
+	// GL_TEXTURE_2D_ARRAY Parameter
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	 // Create storage for the virtual texture.
 	glTexStorage3D(GL_TEXTURE_2D_ARRAY,
 		1,          // Mipmap Level (No Mipmap)
 		GL_RGBA32F, // Internal format
@@ -37,17 +43,17 @@ void ModelAnimator::CreateClipTexture() {
 		transformMapBuffer->height, // height
 		transformMapBuffer->count); // depth (Number of layers)
 
-	 // make texture
+	 // Make virtual texture
 	uint lineSize = max_bone * sizeof(Matrix);
 	uint pageSize = lineSize * max_frame;
 	for (uint c = 0; c < clipCount; c++) {
-		void* pixel = malloc(pageSize);
+		void* pixel = malloc(pageSize); // make
 		for (uint y = 0; y < max_frame; y++) {
 			void* line_point = (byte*)pixel + lineSize * y;
 			if (y >= clips[c]->frameCount) memcpy(line_point, new Matrix[max_bone], lineSize);
 			else memcpy(line_point, clipTransforms[c]->transform[y].data(), lineSize);
 		}
-		glTexSubImage3D(GL_TEXTURE_2D_ARRAY,
+		glTexSubImage3D(GL_TEXTURE_2D_ARRAY, // Store Texture
 			0,		 // Mipmap level
 			0, 0, c, // offset x, y, z
 			transformMapBuffer->width,  // width
@@ -58,12 +64,6 @@ void ModelAnimator::CreateClipTexture() {
 			pixel);		//pointer to data
 		free(pixel);
 	}
-
-	 // parameter set
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 void ModelAnimator::CreateClipTransform(uint index) {
 	ModelClip* clip = clips[index];
@@ -138,7 +138,7 @@ void ModelAnimator::UpdateFrame() {
 			frameData.cur = frameData.next;
 			frameData.tweenTime = 0.0f;
 
-			frameData.next.clip = -1.0f;
+			frameData.next.clip = -1;
 			frameData.next.curFrame = 0;
 			frameData.next.time = 0.0f;
 		}

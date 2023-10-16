@@ -5,7 +5,7 @@ void Terrain::CreateMesh() {
 	if (heightMap) {
 		Size.x = heightMap->Width();
 		Size.y = heightMap->Height();
-		heightMap->ReadPixels(pixels);
+		heightMap->ReadPixel4(pixels);
 	}
 	vertices.clear();
 	indices.clear();

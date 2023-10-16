@@ -21,11 +21,9 @@ public:
 
 	void SetView();
 	void SetProjection();
-	// 나눠둔이유는 pBuffer가 BindAll 또는 MakeProjection 외에는 
+	// 나눠둔이유는 pBuffer가 MakeProjection 외에는 
 	// 추가로 데이터를 업데이트 시킬 필요가 없기때문 
-
-	ViewBuffer*& GetViewBuffer() { return vBuffer; }
-	ProjectionBuffer*& GetProjectionBuffer() { return pBuffer; }
+	void Bind(const uint& targetProgramID); // 카메라 View, Porjection 바인딩
 
 	Ray ScreenPointToRay(Vector2 screenPosition = mousePos);
 	Vector2 WorldToScreenPoint(Vector3 worldPos);
