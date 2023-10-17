@@ -1,5 +1,4 @@
-#include "../../Framework.h"
-#include "Utility.h"
+#include "../Framework.h"
 
 namespace Utility {
 	bool CheckOK(uint const& programID, GLenum const& param, string const& name) {

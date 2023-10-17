@@ -14,14 +14,16 @@ uniform sampler2D thirdDiffuseMap;
 uniform sampler2D thirdSpecularMap; 
 uniform sampler2D thirdNormalMap;
 
-uniform vec4 diffuse;
-uniform vec4 specular;
-uniform vec4 emissive;
-
-uniform bool hasDiffuse;
-uniform bool hasSpecular;
-uniform bool hasNormal;
-uniform float shininess;
+layout (packed) uniform MaterialBuffer {
+	vec4 diffuse;
+	vec4 specular;
+	vec4 emissive;
+	
+	float shininess;
+	bool hasDiffuse;
+	bool hasSpecular;
+	bool hasNormal;
+};
 
 layout (packed) uniform GlobalLightBuffer {
 	vec4 light_color;

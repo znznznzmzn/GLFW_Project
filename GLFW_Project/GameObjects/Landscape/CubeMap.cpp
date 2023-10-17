@@ -37,9 +37,9 @@ void CubeMap::CreateMesh(int slice, int stack) {
 }
 
 CubeMap::CubeMap(int slice, int stack) {
-	skyShader = Shader::Load("Assets/GLSL/Sky.vert", "Assets/GLSL/SkyCube.frag");
+	skyShader = ShaderProgram::Create("Assets/GLSL/Sky.vert", "Assets/GLSL/SkyCube.frag");
 	CreateMesh(slice, stack);
-	cubeMapBuffer = new TextureBuffer(skyShader->Get_ProgramID(), "cubeMap");
+	cubeMapBuffer = new TextureBuffer(skyShader->GetProgramID(), "cubeMap");
 	cubeMapBuffer->slot = 0;
 	glGenTextures(1, &cubemap_texture_id);
 }
@@ -51,7 +51,7 @@ CubeMap::~CubeMap() {
 
 void CubeMap::Render() {
 	if (!isActive) return;
-	skyShader->Set();
+	skyShader->Use();
 	glDepthMask(GL_FALSE);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap_texture_id);

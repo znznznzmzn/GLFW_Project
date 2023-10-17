@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 // PositionMesh
 PositionMesh::PositionMesh(const vector<Vector3>& vertices, const vector<uint>& indices) : Mesh<Vector3>() {

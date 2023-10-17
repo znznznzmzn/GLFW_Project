@@ -36,10 +36,10 @@ void ColorSky::CreateMesh(int slice, int stack, float radius) {
 }
 
 ColorSky::ColorSky(int slice, int stack, float radius) {
-	skyShader = Shader::Load("Assets/GLSL/Sky.vert", "Assets/GLSL/SkyColor.frag");
+	skyShader = ShaderProgram::Create("Assets/GLSL/Sky.vert", "Assets/GLSL/SkyColor.frag");
 	CreateMesh(slice, stack, radius);
 	skyColorBuffer = new SkyColorBuffer();
-	skyColorBuffer->Bind(skyShader->Get_ProgramID());
+	skyColorBuffer->Bind(skyShader->GetProgramID());
 }
 
 ColorSky::~ColorSky() {
@@ -49,7 +49,7 @@ ColorSky::~ColorSky() {
 
 void ColorSky::Render() {
 	if (!isActive) return;
-	skyShader->Set();
+	skyShader->Use();
 	skyColorBuffer->Set();
 	glDepthMask(GL_FALSE);
 	mesh->Set();

@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 Environment::Environment() {
 	CreateState();
@@ -9,10 +9,6 @@ Environment::Environment() {
 	main_camera->UpdateWorld();
 
 	main_light = new GlobalLightBuffer();
-
-	// Preload를 통해 특정 쉐이더에 필요한 GlobalBuffer들을 설정 //- 추후 고려
-	// Shader* shader = Shader::Load("Assets/GLSL/Grid.vert", "Assets/GLSL/Grid.frag", "Grid");
-	// Shader* shader = Shader::Load("Assets/GLSL/Universal.vert", "Assets/GLSL/Universal.frag", "Universal");
 
 	main_tween = new Tween();
 }

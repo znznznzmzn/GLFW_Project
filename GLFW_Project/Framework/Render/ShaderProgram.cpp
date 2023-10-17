@@ -1,4 +1,4 @@
-ï»¿#include "../Framework.h"
+#include "../Framework.h"
 
 // ShaderProgram
 unordered_map<string, ShaderProgram*> ShaderProgram::programs;
@@ -7,20 +7,32 @@ ShaderProgram::ShaderProgram(const string& program_key) {
 	this->program_key = program_key;
 	this->program_id = glCreateProgram();
 }
-ShaderProgram::~ShaderProgram() { // programsì— ëŒ€í•˜ì—¬ ì˜ì¡´ì„±ì´ ì—†ìœ¼ë©´ glDeleteProgram 
+ShaderProgram::~ShaderProgram() { // programs¿¡ ´ëÇÏ¿© ÀÇÁ¸¼ºÀÌ ¾øÀ¸¸é glDeleteProgram 
 	if (!dependency) glDeleteProgram(this->program_id);
-	// attached_shaders.clear(); ê¶‚ì´?
+	// attached_shaders.clear(); ±ÄÀÌ?
 }
 
 void ShaderProgram::Attach(Shader* shader) {
-	for (Shader* elem : attached_shaders) {
-		if (elem->GetShaderID() == shader->GetShaderID()) {
-			cout << "Already Attached, shader_id = " << shader->GetShaderID() << endl;
+	for (Shader*& elem : attached_shaders) {
+		if (elem->GetShaderPath().compare(shader->GetShaderPath()) == 0) {
+			cout << "Already Attached, shader = " << shader->GetShaderPath() << endl;
 			return;
 		}
 	}
 	glAttachShader(program_id, shader->GetShaderID());
 	attached_shaders.emplace_back(shader);
+}
+
+void ShaderProgram::Detach(Shader* shader) {
+	glDetachShader(program_id, shader->GetShaderID());
+	bool isfound = false;
+	for (int i = 0; i < attached_shaders.size(); i++) {
+		if (attached_shaders[i]->GetShaderPath().compare(shader->GetShaderPath()) == 0) {
+			attached_shaders.erase(attached_shaders.begin() + i);
+			return; // ¸®ÅÏ½ÃÅ°±â
+		}
+	} // ¾È±×·³ °æ°í
+	cout << "The shader dosn,t exist, shader = " << shader->GetShaderID() << endl;
 }
 
 void ShaderProgram::Link() {
@@ -45,7 +57,7 @@ string ShaderProgram::MakeAutoKey(ShaderProgram*& target) {
 }
 
 void ShaderProgram::Register(ShaderProgram*& target) {
-	//- ì¤‘ë³µê²€ì‚¬?
+	//- Áßº¹°Ë»ç?
 	programs[target->GetProgramKey()] = target;
 	target->dependency = true;
 }
@@ -135,6 +147,31 @@ void ShaderProgram::Clear() {
 	programs.clear();
 }
 
-void ShaderProgram::BindAll(GlobalBuffer*& target) {
-	for (auto& elem : programs) elem.second->Bind(target);
+void ShaderProgram::BindAll(GlobalBuffer* target) 
+{ for (auto& elem : programs) elem.second->Bind(target); }
+
+void ShaderProgram::GUIRender() {
+	if (ImGui::TreeNode(("ShaderProgram : " + program_key).c_str())) {
+		{ // program_key
+			char name_buf[128] = "";
+			if (ImGui::InputTextWithHint("program_key", program_key.c_str(), name_buf, IM_ARRAYSIZE(name_buf))) {
+				if (KEY_DOWN(ImGuiKey_Enter)) {
+					if (dependency) programs.erase(program_key);
+					program_key = string(name_buf);
+					if (dependency) programs[program_key] = this;
+				}
+			}
+		}
+		{ // Shader
+			for (Shader*& shader : attached_shaders) {
+				ImGui::LabelText("", shader->GetShaderPath().c_str()); 
+				ImGui::SameLine();
+				if (ImGui::Button("Detach")) Detach(shader);
+			}
+			string shader_path = EditorGUI::Dialog_Button_Pattern("Attach Shader", "AttachShader",
+				"Attach Shader", EditorGUI::filter_shader.c_str(), "Assets\\GLSL\\.");
+			if (shader_path.size() != 0) Attach(shader_path);
+			if (ImGui::Button("Try Link")) Link();
+		}
+	}
 }

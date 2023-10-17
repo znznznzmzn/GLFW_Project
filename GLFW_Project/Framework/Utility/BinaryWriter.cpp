@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 BinaryWriter::BinaryWriter(string const& path) { OpenFile(path); }
 BinaryWriter::~BinaryWriter() { CloseFile(); }

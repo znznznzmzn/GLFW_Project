@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 void Transform::UpdateWorld() {
 	if (!Active()) return;

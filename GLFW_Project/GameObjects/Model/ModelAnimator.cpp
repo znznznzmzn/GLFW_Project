@@ -208,14 +208,14 @@ Matrix ModelAnimator::GetTransformByNode(int nodeIndex) {
 	Matrix curAnim;
 
 	{//CurAnim
-		Frame& curFrame = fBuffer->data.cur;
+		FrameBuffer::Frame& curFrame = fBuffer->data.cur;
 		Matrix cur = nodeTransforms[curFrame.clip]->transform[curFrame.curFrame][nodeIndex];
 		Matrix next = nodeTransforms[curFrame.clip]->transform[curFrame.curFrame + 1][nodeIndex];
 		curAnim = LERP(cur, next, curFrame.time);
 	}
 
 	{//NextAnim
-		Frame& nextFrame = fBuffer->data.next;
+		FrameBuffer::Frame& nextFrame = fBuffer->data.next;
 		if (nextFrame.clip == -1) return curAnim;
 		Matrix cur = nodeTransforms[nextFrame.clip]->transform[nextFrame.curFrame][nodeIndex];
 		Matrix next = nodeTransforms[nextFrame.clip]->transform[nextFrame.curFrame + 1][nodeIndex];

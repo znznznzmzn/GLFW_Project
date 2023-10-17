@@ -1,7 +1,19 @@
-#include "../../Framework.h"
+#include "../Framework.h"
+
+void Material::bind() {
+	if (shader == nullptr) {
+		cout << "CAUTION >> Material Shader Program = nullptr" << endl;
+		return;
+	}
+	shader->Use();
+	shader->Bind(mBuffer);
+	shader->Bind(diffuseMapBuffer , "diffuseMap");
+	shader->Bind(specularMapBuffer, "specularMap");
+	shader->Bind(normalMapBuffer  , "normalMap");
+}
 
 void Material::init(const int& shader_id) {
-	mBuffer = new MaterialBuffer(shader_id);
+	mBuffer = new MaterialBuffer();
 	diffuseMapBuffer  = new TextureBuffer(shader_id, "diffuseMap" );
 	specularMapBuffer = new TextureBuffer(shader_id, "specularMap");
 	normalMapBuffer   = new TextureBuffer(shader_id, "normalMap"  );
@@ -12,9 +24,10 @@ void Material::init(const int& shader_id) {
 
 Material::Material() { init(0); }
 Material::Material(const string& vshader_path, const string& fshader_path) {
-	shader = Shader::Load(vshader_path, fshader_path);
-	shader->Set();
-	init(shader->Get_ProgramID());
+	shader = ShaderProgram::Create(vshader_path, fshader_path);
+	shader->Use();
+	init(shader->GetProgramID());
+	bind();
 }
 Material::~Material() { 
 	SAFE_DELETE(mBuffer); 
@@ -24,7 +37,7 @@ Material::~Material() {
 }
 
 void Material::Set() {
-	shader->Set();
+	shader->Use();
 	if (diffuseMap) {
 		diffuseMap->Set(diffuseMapBuffer->slot);
 		diffuseMapBuffer->Set();
@@ -42,25 +55,21 @@ void Material::Set() {
 
 void Material::SetShader(const string& vshader_path, const string& fshader_path) { 
 	if (is_shader_locked) return;
-	shader = Shader::Load(vshader_path, fshader_path); 
-	shader->Set();
-	mBuffer->Update(shader->Get_ProgramID());
-	diffuseMapBuffer ->UpdatePosition(shader->Get_ProgramID(), "diffuseMap");
-	specularMapBuffer->UpdatePosition(shader->Get_ProgramID(), "specularMap");
-	normalMapBuffer  ->UpdatePosition(shader->Get_ProgramID(), "normalMap");
+	shader = ShaderProgram::Create(vshader_path, fshader_path); 
+	bind();
 }
 
 void Material::SetDiffuseMap(string path) {
-	mBuffer->hasDiffuseBuffer->data = (path.length() != 0);
-	diffuseMap = (mBuffer->hasDiffuseBuffer->data) ? Texture::Load(path) : nullptr;
+	mBuffer->data.hasDiffuse = (path.length() != 0);
+	diffuseMap = (mBuffer->data.hasDiffuse) ? Texture::Load(path) : nullptr;
 }
 void Material::SetSpecularMap(string path) {
-	mBuffer->hasSpecularBuffer->data = (path.length() != 0); 
-	specularMap = (mBuffer->hasSpecularBuffer->data) ? Texture::Load(path) : nullptr; 
+	mBuffer->data.hasSpecular = (path.length() != 0);
+	specularMap = (mBuffer->data.hasSpecular) ? Texture::Load(path) : nullptr;
 }
 void Material::SetNormalMap(string path) {
-	mBuffer->hasNormalBuffer->data = (path.length() != 0); 
-	normalMap = (mBuffer->hasNormalBuffer->data) ? Texture::Load(path) : nullptr;
+	mBuffer->data.hasNormal = (path.length() != 0);
+	normalMap = (mBuffer->data.hasNormal) ? Texture::Load(path) : nullptr;
 }
 
 string Material::GetDiffusePath() {
@@ -84,38 +93,21 @@ void Material::GUIRender() {
 				if (KEY_DOWN(ImGuiKey_Enter)) name = string(name_buf);
 		}
 
-		{ // Shader
-			string shader_path = EditorGUI::Dialog_Button_Pattern("Load Shader", "LoadShader", 
-				"Load Shader", "ShaderFiles{.frag,.vert}", "Assets\\GLSL\\."); 
-			if (shader_path.size() != 0) { 
-				string vpath, fpath; 
-				if (shader_path.find(".frag") == string::npos) { // 선택한게 .frag가 아니라면
-					vpath = shader_path; 
-					fpath = shader_path.substr(0, shader_path.find_last_of('.')) + ".frag";
-				}
-				else {
-					vpath = shader_path.substr(0, shader_path.find_last_of('.')) + ".vert";
-					fpath = shader_path; 
-				}
-				SetShader(vpath, fpath); 
-			}
-			ImGui::LabelText("Vertex Shader", shader->Get_VertexShaderPath().c_str());
-			ImGui::LabelText("Fragment Shader", shader->Get_FragmentShaderPath().c_str());
-		}
+		// Shader
+		shader->GUIRender();
 
 		// Material Color
-		ImGui::ColorEdit4 ("Diffuse" , (float*)&mBuffer->diffuseBuffer ->data);
-		ImGui::ColorEdit4 ("Specular", (float*)&mBuffer->specularBuffer->data);
-		ImGui::ColorEdit4 ("Emissive", (float*)&mBuffer->emissiveBuffer->data);
-
-		ImGui::SliderFloat("Shiness" , (float*)&mBuffer->shininessBuffer->data, 1.0f, 50.0f);
+		ImGui::ColorEdit4 ("Diffuse" , (float*)&mBuffer->data.diffuse );
+		ImGui::ColorEdit4 ("Specular", (float*)&mBuffer->data.specular);
+		ImGui::ColorEdit4 ("Emissive", (float*)&mBuffer->data.emissive);
+		ImGui::SliderFloat("Shiness" , (float*)&mBuffer->data.shininess, 1.0f, 50.0f);
 
 		// Material has Diffuse Specular Normal 
-		ImGui::Checkbox("Is Diffuse   ", (bool*)&mBuffer->hasDiffuseBuffer->data);
+		ImGui::Checkbox("Is Diffuse   ", (bool*)&mBuffer->data.diffuse);
 		ImGui::SameLine();
-		ImGui::Checkbox("Is Specular  ", (bool*)&mBuffer->hasSpecularBuffer->data);
+		ImGui::Checkbox("Is Specular  ", (bool*)&mBuffer->data.specular);
 		ImGui::SameLine();
-		ImGui::Checkbox("Is Normal    ", (bool*)&mBuffer->hasNormalBuffer->data);
+		ImGui::Checkbox("Is Normal    ", (bool*)&mBuffer->data.hasNormal);
 
 		{ // Material Images
 			ImVec2 xbox = { 24, 24 };
@@ -178,23 +170,27 @@ void Material::SaveMaterial(string path) {
 
 	w->WriteLine(name); // 이름
 
-	if (shader != nullptr) {
-		w->WriteLine(shader->Get_VertexShaderPath());
-		w->WriteLine(shader->Get_FragmentShaderPath());
-	}
-	else {
-		w->WriteLine("");
-		w->WriteLine("");
+	{
+		if (shader != nullptr) { // shader
+			w->WriteLine(shader->GetProgramKey()); // shader_key
+			w->WriteLine(Utility::String::From(shader->GetAttachedShadersCount())); // shader_count
+			for (Shader*& elem : shader->GetAttachedShaders()) // shaders
+				w->WriteLine(elem->GetShaderPath());
+		}
+		else {
+			w->WriteLine(""); // shader_key = nullptr
+			w->WriteLine(0); // shader_count = 0
+		}
 	}
 
-	w->WriteLine(Utility::String::From(mBuffer->diffuseBuffer ->data));
-	w->WriteLine(Utility::String::From(mBuffer->specularBuffer->data));
-	w->WriteLine(Utility::String::From(mBuffer->emissiveBuffer->data));
+	w->WriteLine(Utility::String::From(mBuffer->data.diffuse )); // material_buffer datas
+	w->WriteLine(Utility::String::From(mBuffer->data.specular));
+	w->WriteLine(Utility::String::From(mBuffer->data.emissive));
 
-	w->WriteLine(Utility::String::From(mBuffer->hasDiffuseBuffer ->data)); 
-	w->WriteLine(Utility::String::From(mBuffer->hasSpecularBuffer->data)); 
-	w->WriteLine(Utility::String::From(mBuffer->hasNormalBuffer  ->data)); 
-	w->WriteLine(Utility::String::From(mBuffer->shininessBuffer  ->data));
+	w->WriteLine(Utility::String::From(mBuffer->data.hasDiffuse )); 
+	w->WriteLine(Utility::String::From(mBuffer->data.hasSpecular)); 
+	w->WriteLine(Utility::String::From(mBuffer->data.hasNormal  )); 
+	w->WriteLine(Utility::String::From(mBuffer->data.shininess  ));
 
 	w->WriteLine((diffuseMap ) ? diffuseMap ->GetPath() : ""); // 각 텍스쳐 path
 	w->WriteLine((specularMap) ? specularMap->GetPath() : "");
@@ -211,22 +207,26 @@ void Material::LoadMaterial(string path) {
 	}
 	BinaryReader* r = new BinaryReader(path);
 
-	name = r->ReadLine();
+	name = r->ReadLine(); // material name
 
-	{
-		string vpath = r->ReadLine();
-		string fpath = r->ReadLine();
-		if(vpath.length() != 0 && fpath.length() != 0) SetShader(vpath, fpath);
+	{ // shader
+		string shader_key = r->ReadLine(); // shader_key
+		uint shader_count = Utility::String::ToUint(r->ReadLine()); // shader_count
+		vector<string> shader_paths;
+		for (uint i = 0; i < shader_count; i++) // shaders
+			shader_paths.emplace_back(r->ReadLine());
+		if (shader_count != 0) 
+			shader = ShaderProgram::Create(shader_paths);
 	}
 
-	mBuffer->diffuseBuffer ->data = Utility::String::ToVector4(r->ReadLine());
-	mBuffer->specularBuffer->data = Utility::String::ToVector4(r->ReadLine());
-	mBuffer->emissiveBuffer->data = Utility::String::ToVector4(r->ReadLine());
+	mBuffer->data.diffuse  = Utility::String::ToVector4(r->ReadLine());
+	mBuffer->data.specular = Utility::String::ToVector4(r->ReadLine());
+	mBuffer->data.emissive = Utility::String::ToVector4(r->ReadLine());
 
-	mBuffer->hasDiffuseBuffer ->data = Utility::String::ToInt  (r->ReadLine());
-	mBuffer->hasSpecularBuffer->data = Utility::String::ToInt  (r->ReadLine());
-	mBuffer->hasNormalBuffer  ->data = Utility::String::ToInt  (r->ReadLine());
-	mBuffer->shininessBuffer  ->data = Utility::String::ToFloat(r->ReadLine());
+	mBuffer->data.hasDiffuse  = Utility::String::ToInt  (r->ReadLine());
+	mBuffer->data.hasSpecular = Utility::String::ToInt  (r->ReadLine());
+	mBuffer->data.hasNormal   = Utility::String::ToInt  (r->ReadLine());
+	mBuffer->data.shininess   = Utility::String::ToFloat(r->ReadLine());
 
 	SetDiffuseMap (r->ReadLine());
 	SetSpecularMap(r->ReadLine());
@@ -237,48 +237,3 @@ void Material::LoadMaterial(string path) {
 	this->path = path;
 }
 
-// Material InnerClass -> MaterialBuffer (UniformCollections 유니폼버퍼 모음집)
-Material::MaterialBuffer::MaterialBuffer(const uint& targetProgramID) {
-	diffuseBuffer  = new Vector4Buffer(targetProgramID, "diffuse");
-	specularBuffer = new Vector4Buffer(targetProgramID, "specular");
-	emissiveBuffer = new Vector4Buffer(targetProgramID, "emissive");
-	shininessBuffer = new FloatBuffer(targetProgramID, "shininess");
-	hasDiffuseBuffer  = new IntBuffer(targetProgramID, "hasDiffuse");
-	hasSpecularBuffer = new IntBuffer(targetProgramID, "hasSpecular");
-	hasNormalBuffer   = new IntBuffer(targetProgramID, "hasNormal");
-
-	diffuseBuffer ->data = { 1.0f, 1.0f, 1.0f, 1.0f };
-	specularBuffer->data = { 1.0f, 1.0f, 1.0f, 1.0f };
-	emissiveBuffer->data = { 0.0f, 0.0f, 0.0f, 1.0f };
-	shininessBuffer->data = 24.0f;
-	hasDiffuseBuffer ->data = false;
-	hasSpecularBuffer->data = false;
-	hasNormalBuffer  ->data = false;
-}
-Material::MaterialBuffer::~MaterialBuffer() {
-	SAFE_DELETE(diffuseBuffer);
-	SAFE_DELETE(specularBuffer);
-	SAFE_DELETE(emissiveBuffer);
-	SAFE_DELETE(shininessBuffer);
-	SAFE_DELETE(hasDiffuseBuffer);
-	SAFE_DELETE(hasSpecularBuffer);
-	SAFE_DELETE(hasNormalBuffer);
-}
-void Material::MaterialBuffer::Set() {
-	diffuseBuffer  ->Set();
-	specularBuffer ->Set();
-	emissiveBuffer ->Set();
-	shininessBuffer->Set();
-	hasDiffuseBuffer ->Set();
-	hasSpecularBuffer->Set();
-	hasNormalBuffer  ->Set();
-}
-void Material::MaterialBuffer::Update(const uint& targetProgramID) {
-	diffuseBuffer  ->UpdatePosition(targetProgramID, "diffuse");
-	specularBuffer ->UpdatePosition(targetProgramID, "specular");
-	emissiveBuffer ->UpdatePosition(targetProgramID, "emissive");
-	shininessBuffer->UpdatePosition(targetProgramID, "shininess");
-	hasDiffuseBuffer ->UpdatePosition(targetProgramID, "hasDiffuse");
-	hasSpecularBuffer->UpdatePosition(targetProgramID, "hasSpecular");
-	hasNormalBuffer  ->UpdatePosition(targetProgramID, "hasNormal");
-}

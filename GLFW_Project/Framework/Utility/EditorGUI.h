@@ -1,6 +1,7 @@
 #pragma once
 
 namespace EditorGUI {
+	const string filter_shader = "ShaderFiles{ .vert,.vs,.frag,.fs,.geom,.gs }"; // 종합 쉐이더 필터
 	const string filter_image = "ImageFiles{.tga,.png,.jpg,.jpeg,.bmp,.gif,.hdr,.pnm}"; // 종합 이미지 필터
 	const string filter_model = "ModelFiles{.fbx,.obj}"; // 종합 모델 필터
 

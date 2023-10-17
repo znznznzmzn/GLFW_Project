@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 void Cylinder::setVertex(int slice) {
 	if (slice < 3) slice = 3;

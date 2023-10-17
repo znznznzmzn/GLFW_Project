@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 SphereCollider::SphereCollider() : Collider(TYPE::SPHERE) {
 	uint Count = 30;

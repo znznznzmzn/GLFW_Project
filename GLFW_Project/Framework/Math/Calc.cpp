@@ -1,4 +1,4 @@
-ï»¿#include "../../Framework.h"
+#include "../Framework.h"
 
 namespace Calc {
 	const double sq5 = sqrt(5);
@@ -194,15 +194,15 @@ namespace Easing {
 	}
 }
 
-namespace Random { // C++ 17ìš© ìµœì í™”ëœ ëœë¤í•¨ìˆ˜ (ë¹ ë¦„ ã…‡ã…‡) 
+namespace Random { // C++ 17¿ë ÃÖÀûÈ­µÈ ·£´ıÇÔ¼ö (ºü¸§ ¤·¤·) 
 	random_device rd;
 	mt19937 gen(rd());
-	uniform_int_distribution<int> dist(INT_MIN, INT_MAX); // intìµœëŒ€ ìµœì†Œê°’
+	uniform_int_distribution<int> dist(INT_MIN, INT_MAX); // intÃÖ´ë ÃÖ¼Ò°ª
 	int Number() { return dist(gen); }
 	int NumberTo(unsigned int to) { return abs(Number()) % to; }
 	float RealNumber() { return static_cast<float>(Number() % 10000) / Calc::PI; }
-	int   Range (int   min, int   max) { return Calc::Repeat(Number(), min, max); } // minì´ìƒ maxë¯¸ë§Œ
-	float Range (float min, float max) { return Calc::Repeat(RealNumber(), min, max); } // â€» minì´ìƒ maxë¯¸ë§Œ
+	int   Range (int   min, int   max) { return Calc::Repeat(Number(), min, max); } // minÀÌ»ó max¹Ì¸¸
+	float Range (float min, float max) { return Calc::Repeat(RealNumber(), min, max); } // ¡Ø minÀÌ»ó max¹Ì¸¸
 	float Length(float lenght) { return Range(-lenght / 2.0f, lenght / 2.0f); }
 	float PI() { return Length(Calc::PI); }
 }

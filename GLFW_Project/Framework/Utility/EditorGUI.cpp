@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 namespace EditorGUI {
 	bool ImageButton(const string& title, Texture*& img, ImVec2 size) {

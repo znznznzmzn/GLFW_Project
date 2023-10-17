@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 CapsuleCollider::CapsuleCollider(float height) : Collider(TYPE::CAPSULE) {
     uint Count = 30;    

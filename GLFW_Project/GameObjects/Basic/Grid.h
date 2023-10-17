@@ -2,7 +2,7 @@
 class Grid {
 private:
 	const int MAX_VALUE = 100; 
-	Shader* GridShader;
+	ShaderProgram* GridShader;
 	MatrixBuffer* wBuffer;
 	vector<VertexColor> vertices;
 

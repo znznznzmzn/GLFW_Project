@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 void GameObject::init(string vshader_path, string fshader_path) {
 	material = new Material(vshader_path, fshader_path);

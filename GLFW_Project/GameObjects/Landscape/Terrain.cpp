@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 void Terrain::CreateMesh() {
 	vector<Vector4> pixels(Size.x * Size.y, Vector4(0, 0, 0, 0));
@@ -87,7 +87,7 @@ Terrain::~Terrain() {
 
 void Terrain::Render() {
 	if (!Active()) return;
-	material->Set_Shader();
+	material->UseProgram();
 	if (alphaMap) {
 		alphaMap->Set(alphaMapBuffer->slot);
 		alphaMapBuffer->Set();

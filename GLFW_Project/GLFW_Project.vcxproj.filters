@@ -120,10 +120,10 @@
     <ClCompile Include="GameObjects\Landscape\TerrainEditor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Libraries\stb_image_write.cpp">
+    <ClCompile Include="Libraries\stbi\stb_image_write.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Libraries\stb_image.cpp">
+    <ClCompile Include="Libraries\stbi\stb_image.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Scenes\Scene_Model.cpp">
@@ -251,7 +251,7 @@
     <ClInclude Include="Scenes\Scene_Grid.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Libraries\stb_image.h">
+    <ClInclude Include="Libraries\stbi\stb_image.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Render\Texture.h">
@@ -320,7 +320,7 @@
     <ClInclude Include="GameObjects\Landscape\TerrainEditor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Libraries\stb_image_write.h">
+    <ClInclude Include="Libraries\stbi\stb_image_write.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Scenes\Scene_Model.h">

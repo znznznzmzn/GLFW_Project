@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 void ModelReader::ReadMaterial(ModelData*& out) {
 	string path = "Assets/Models/BinaryModels/" + out->model_name + "/" + out->model_name + ".mats"; 

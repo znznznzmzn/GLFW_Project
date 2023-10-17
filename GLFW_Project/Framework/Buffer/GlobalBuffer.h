@@ -20,13 +20,17 @@ public:
 	virtual void Set() = 0;
 };
 
+// 글로벌 버퍼는 한곳에서 관리하도록 
+// 잘못하다간 꼬인다
+// 꼬여서 8시간 날렸다...
+
 class ViewBuffer : public GlobalBuffer {
 public:
 	struct Data {
 		Matrix View = Matrix(1.0f);
 		Matrix InverseView = Matrix(1.0f);
 	} data;
-	ViewBuffer() : GlobalBuffer("ViewBuffer", 0) {
+	ViewBuffer() : GlobalBuffer("ViewBuffer", 0) { // 각 버퍼 슬롯은 달라야 한다
 		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id); 
 		glBufferData(GL_UNIFORM_BUFFER, sizeof(data), NULL, GL_STATIC_DRAW);
 		glBindBufferRange(GL_UNIFORM_BUFFER, buffer_slot, buffer_id, 0, sizeof(data));
@@ -74,3 +78,78 @@ public:
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	}
 };
+
+
+class MaterialBuffer : public GlobalBuffer {
+public:
+	struct Data {
+		Vector4 diffuse  = { 1.0f, 1.0f, 1.0f, 1.0f };
+		Vector4 specular = { 1.0f, 1.0f, 1.0f, 1.0f };
+		Vector4 emissive = { 0.0f, 0.0f, 0.0f, 1.0f };
+		float shininess = 24.0f;
+		int hasDiffuse  = false;
+		int hasSpecular = false;
+		int hasNormal   = false;
+	} data;
+	MaterialBuffer() : GlobalBuffer("MaterialBuffer", 3) {
+		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
+		glBufferData(GL_UNIFORM_BUFFER, sizeof(data), NULL, GL_STATIC_DRAW);
+		glBindBufferRange(GL_UNIFORM_BUFFER, buffer_slot, buffer_id, 0, sizeof(data));
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
+	void Set() override {
+		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(data), &data);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
+};
+
+class FrameBuffer : public GlobalBuffer {
+public:
+	struct Frame {
+		int clip = 0;
+		uint curFrame = 0;
+		float time = 0.0f;
+		float speed = 1.0f;
+	};
+	struct Data {
+		float takeTime = 0.2f;
+		float tweenTime = 0.0f;
+		float runningTime = 0.0f;
+		float padding = 0.0f;
+		Frame cur;
+		Frame next;
+	} data;
+	FrameBuffer() : GlobalBuffer("FrameBuffer", 4) {
+		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
+		glBufferData(GL_UNIFORM_BUFFER, sizeof(data), NULL, GL_STATIC_DRAW);
+		glBindBufferRange(GL_UNIFORM_BUFFER, buffer_slot, buffer_id, 0, sizeof(data));
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
+	void Set() override {
+		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(data), &data);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
+};
+
+class SkyColorBuffer : public GlobalBuffer {
+public:
+	struct Data {
+		Vector3 centerColor = Vector3(0.3f, 0.3f, 0.3f);
+		float height = 50.0f;
+		Vector3 apexColor = Vector3(0.0f, 0.4f, 0.9f);
+		float padding = 0.0f;
+	} data;
+	SkyColorBuffer() : GlobalBuffer("SkyColor", 5) {
+		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
+		glBufferData(GL_UNIFORM_BUFFER, sizeof(data), NULL, GL_STATIC_DRAW);
+		glBindBufferRange(GL_UNIFORM_BUFFER, buffer_slot, buffer_id, 0, sizeof(data));
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
+	void Set() override {
+		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(data), &data);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
+}

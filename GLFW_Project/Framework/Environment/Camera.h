@@ -28,6 +28,11 @@ public:
 	Ray ScreenPointToRay(Vector2 screenPosition = mousePos);
 	Vector2 WorldToScreenPoint(Vector3 worldPos);
 	void LookAt(Vector3 target, Vector3 upVector = Vector3(0, 1, 0));
+
+
+	ViewBuffer*& GetViewBuffer() { return vBuffer; }
+	ProjectionBuffer*& GetProjectionBuffer() { return pBuffer; }
+
 private:
 	//- 추후 projection 모드 설정 
 	PROJECTION_TYPE projection_type = PROJECTION_TYPE::PERSPECTIVE;

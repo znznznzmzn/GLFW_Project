@@ -5,7 +5,7 @@ private:
 	string path = "";
 	string name = "Default";
 
-	Shader* shader = nullptr;
+	ShaderProgram* shader = nullptr;
 	bool is_shader_locked = false;
 
 	Texture* diffuseMap = nullptr;
@@ -16,28 +16,16 @@ private:
 	TextureBuffer* specularMapBuffer = nullptr;
 	TextureBuffer* normalMapBuffer = nullptr;
 
-	class MaterialBuffer {
-	public:
-		MaterialBuffer(const uint& targetProgramID);
-		~MaterialBuffer();
-		void Set();
-		void Update(const uint& targetProgramID);
-		Vector4Buffer* diffuseBuffer = nullptr;
-		Vector4Buffer* specularBuffer = nullptr;
-		Vector4Buffer* emissiveBuffer = nullptr;
-		FloatBuffer* shininessBuffer = nullptr;
-		IntBuffer* hasDiffuseBuffer = nullptr;
-		IntBuffer* hasSpecularBuffer = nullptr;
-		IntBuffer* hasNormalBuffer = nullptr;
-	}* mBuffer = nullptr;
+	MaterialBuffer* mBuffer = nullptr;
 
+	void bind();
 	void init(const int& shader_id);
 public:
 	Material();
 	Material(const string& vshader_path, const string& fshader_path);
 	~Material();
 
-	void Set_Shader() { shader->Set(); }
+	void UseProgram() { shader->Use(); }
 	void Set();
 
 	void SetDiffuseMap (string path);
@@ -53,7 +41,7 @@ public:
 	string GetSpecularPath();
 	string GetNormalPath();
 
-	const uint& Get_ProgramID() { return shader->Get_ProgramID(); }
+	const uint& Get_ProgramID() { return shader->GetProgramID(); }
 
 	void GUIRender();
 
@@ -62,8 +50,8 @@ public:
 
 	void LockShader(bool isLock = true) { is_shader_locked = isLock; }
 
-	Vector4& GetData_Diffuse () { return mBuffer->diffuseBuffer ->data; }
-	Vector4& GetData_Specular() { return mBuffer->specularBuffer->data; }
-	Vector4& GetData_Emissive() { return mBuffer->emissiveBuffer->data; }
-	float& GetData_Shininess () { return mBuffer->shininessBuffer->data; }
+	Vector4& GetData_Diffuse () { return mBuffer->data.diffuse  ; }
+	Vector4& GetData_Specular() { return mBuffer->data.specular ; }
+	Vector4& GetData_Emissive() { return mBuffer->data.emissive ; }
+	float& GetData_Shininess () { return mBuffer->data.shininess; }
 };

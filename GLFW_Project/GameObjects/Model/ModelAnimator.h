@@ -2,34 +2,7 @@
 
 class ModelAnimator : public Model {
 protected:
-	struct Frame {
-		int clip = 0;
-		uint curFrame = 0;
-		float time = 0.0f;
-		float speed = 1.0f;
-	};
-	class FrameBuffer : public GlobalBuffer {
-	public:
-		struct Data {
-			float takeTime = 0.2f;
-			float tweenTime = 0.0f;
-			float runningTime = 0.0f;
-			float padding = 0.0f;
-			Frame cur;
-			Frame next;
-		} data;
-		FrameBuffer() : GlobalBuffer("FrameBuffer", 3) {
-			glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
-			glBufferData(GL_UNIFORM_BUFFER, sizeof(data), NULL, GL_STATIC_DRAW);
-			glBindBufferRange(GL_UNIFORM_BUFFER, buffer_slot, buffer_id, 0, sizeof(data));
-			glBindBuffer(GL_UNIFORM_BUFFER, 0);
-		}
-		void Set() override {
-			glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
-			glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(data), &data);
-			glBindBuffer(GL_UNIFORM_BUFFER, 0);
-		}
-	}* fBuffer = nullptr;
+	FrameBuffer* fBuffer = nullptr;
 
 	void CreateClipTexture();
 	void CreateClipTransform(uint index);

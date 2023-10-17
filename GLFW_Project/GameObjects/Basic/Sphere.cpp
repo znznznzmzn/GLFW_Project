@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 void Sphere::createMesh(int slice, int stack) {
 	const float radius = 0.5f;

@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 Vector4 Collider::COLOR_NORMAL   = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 Vector4 Collider::COLOR_COLLIDE  = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
@@ -9,9 +9,9 @@ void Collider::CreateMesh() {
 }
 
 Collider::Collider(TYPE collider_type) : collider_type(collider_type) {
-	colliderShader = Shader::Load("Assets/GLSL/Collider.vert", "Assets/GLSL/Collider.frag");
-	wBuffer = new MatrixBuffer(colliderShader->Get_ProgramID(), "world");
-	collider_colorBuffer = new Vector4Buffer(colliderShader->Get_ProgramID(), "collider_color");
+	colliderShader = ShaderProgram::Create("Assets/GLSL/Collider.vert", "Assets/GLSL/Collider.frag");
+	wBuffer = new MatrixBuffer(colliderShader->GetProgramID(), "world");
+	collider_colorBuffer = new Vector4Buffer(colliderShader->GetProgramID(), "collider_color");
 	collider_colorBuffer->data = COLOR_NORMAL;
 }
 Collider::~Collider() {
@@ -26,7 +26,7 @@ void Collider::SetActive(bool isActive) {
 }
 
 void Collider::Render() {
-	colliderShader->Set();
+	colliderShader->Use();
 	wBuffer->data = world;
 	wBuffer->Set();
 	collider_colorBuffer->Set(); 

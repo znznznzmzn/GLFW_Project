@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 void ModelExporter::ExtractMaterial() {
 	for (uint i = 0; i < scene->mNumMaterials; i++) {

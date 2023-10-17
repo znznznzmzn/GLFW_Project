@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 void Cube::setVertex() {
 	float w2 = 0.5f;

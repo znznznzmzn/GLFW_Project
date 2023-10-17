@@ -11,7 +11,7 @@ protected:
 	string name = "CubeMap_00";
 	bool isActive = true;
 
-	Shader* skyShader = nullptr;
+	ShaderProgram* skyShader = nullptr;
 	PositionMesh* mesh = nullptr;
 	TextureBuffer* cubeMapBuffer = nullptr;
 

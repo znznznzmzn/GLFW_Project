@@ -1,69 +1,69 @@
-ï»¿#pragma once
+#pragma once
 
 class ShaderProgram { 
 private:
 	uint program_id = -1;
 	string program_key = "";
 	vector<Shader*> attached_shaders;
-	bool dependency = false; // programsì— ëŒ€í•˜ì—¬ ì˜ì¡´ì„±ì´ ìˆëŠ”ê°€
-	// ì— ë”°ë¼ì„œ ìŠ¤ìŠ¤ë¡œì˜ í”„ë¡œê·¸ë¨ì„ ì§€ì›Œë²„ë¦´ì§€ ê²°ì •
+	bool dependency = false; // programs¿¡ ´ëÇÏ¿© ÀÇÁ¸¼ºÀÌ ÀÖ´Â°¡
+	// ¿¡ µû¶ó¼­ ½º½º·ÎÀÇ ÇÁ·Î±×·¥À» Áö¿ö¹ö¸±Áö °áÁ¤
 
-	static unordered_map<string, ShaderProgram*> programs; // ë“±ë¡ëœ í”„ë¡œê·¸ë¨ë“¤
+	static unordered_map<string, ShaderProgram*> programs; // µî·ÏµÈ ÇÁ·Î±×·¥µé
 	static const char AUTO_KEY_SPLITER = '&';
 protected:
 public:
 	ShaderProgram(const string& program_key);
 	~ShaderProgram();
 
-	void Attach(Shader* shader); // ì‰ì´ë”ë¥¼ ë¶™ì¸ë‹¤
-	void Attach(const string& shader_path, GLenum shader_type = NULL) // ì‰ì´ë” shader_pathì™€ type ì— ë”°ë¼ ì‰ì´ë”ë¥¼ ìƒì„±í•˜ê³  ë¶™ì„ 
+	void Attach(Shader* shader); // ½¦ÀÌ´õ¸¦ ºÙÀÎ´Ù
+	void Attach(const string& shader_path, GLenum shader_type = NULL) // ½¦ÀÌ´õ shader_path¿Í type ¿¡ µû¶ó ½¦ÀÌ´õ¸¦ »ı¼ºÇÏ°í ºÙÀÓ 
 	{ Attach(Shader::Load(shader_path, shader_type)); }
+	void Detach(Shader* shader);
 
-	void Link(); // Attachí•œ ì‰ì´ë”ë“¤ì„ ë§í¬ ì‹œí‚¤ëŠ” í•¨ìˆ˜
+	void Link(); // AttachÇÑ ½¦ÀÌ´õµéÀ» ¸µÅ© ½ÃÅ°´Â ÇÔ¼ö
 	
-	// attached_shadersì˜ pathë¥¼ AUTO_KEY_SPLITERì™€ í•©ì³ì„œ key ìƒì„±
+	// attached_shadersÀÇ path¸¦ AUTO_KEY_SPLITER¿Í ÇÕÃÄ¼­ key »ı¼º
 	static string MakeAutoKey(vector<string> paths);
 	static string MakeAutoKey(ShaderProgram*& target);
 
-	static vector<string> DecomposeAutoKey(string target_auto_key) // MakeAutoKeyë¡œ ìƒì„±ëœ keyê°’ì„ shader_pathë¡œ ë¶„í•´
+	static vector<string> DecomposeAutoKey(string target_auto_key) // MakeAutoKey·Î »ı¼ºµÈ key°ªÀ» shader_path·Î ºĞÇØ
 	{ return Utility::String::Split(target_auto_key, AUTO_KEY_SPLITER); }
 
-	static void Register(ShaderProgram*& target); // programsì— ë“±ë¡
+	static void Register(ShaderProgram*& target); // programs¿¡ µî·Ï
 
-	// keyì— í•´ë‹¹í•˜ëŠ” programì´ ìˆëŠ”ê°€
+	// key¿¡ ÇØ´çÇÏ´Â programÀÌ ÀÖ´Â°¡
 	static bool IsExist(const string& key)
 	{ return programs.count(key) > 0; }
 
-	// keyì— í•´ë‹¹í•˜ëŠ” program ë°˜í™˜, ì—†ìœ¼ë©´ nullptr
+	// key¿¡ ÇØ´çÇÏ´Â program ¹İÈ¯, ¾øÀ¸¸é nullptr
 	static ShaderProgram* GetProgram(const string & key) { return IsExist(key) ? programs[key] : nullptr; }
 
-	// shaderKeys(path)ë¡œ êµ¬ì„±ëœ programì„ ì°¾ì•„ì£¼ê¸°, ì—†ìœ¼ë©´ nullptr
+	// shaderKeys(path)·Î ±¸¼ºµÈ programÀ» Ã£¾ÆÁÖ±â, ¾øÀ¸¸é nullptr
 	static ShaderProgram* Find(vector<string> shaderPaths);
 
-	// shadersë¡œ êµ¬ì„±ëœ programì„ ì°¾ì•„ì£¼ê¸°, ì—†ìœ¼ë©´ nullptr
+	// shaders·Î ±¸¼ºµÈ programÀ» Ã£¾ÆÁÖ±â, ¾øÀ¸¸é nullptr
 	static ShaderProgram* Find(vector<Shader*> shaders);
 	
-
-	// ê° ì‰ì´ë” pathì— í•´ë‹¹íëŠ” ì‰ì´ë”ë¥¼ ë¡œë“œí•˜ì—¬ í”„ë¡œê·¸ë¨ ì¡°í•©
-	// ì‰ì´ë” ì¢…ë¥˜ì— ë”°ë¼ ë‹¤ë¥´ê²Œ ìƒì„±í•  ìˆ˜ ìˆìŒ
+	// °¢ ½¦ÀÌ´õ path¿¡ ÇØ´çÇÏ´Â ½¦ÀÌ´õ¸¦ ·ÎµåÇÏ¿© ÇÁ·Î±×·¥ Á¶ÇÕ
+	// ½¦ÀÌ´õ Á¾·ù¿¡ µû¶ó ´Ù¸£°Ô »ı¼ºÇÒ ¼ö ÀÖÀ½
 	static ShaderProgram* Create(
 		const string& key,
 		const string& v_shader_path, 
 		const string& f_shader_path,
 		const string& g_shader_path = nullptr);
-	// keyëŠ” ìë™ìƒì„±ì— ë§ê¸°ê³  ê° pathì— ë§ê²Œ í”„ë¡œê·¸ë¨ ìƒì„±
+	// key´Â ÀÚµ¿»ı¼º¿¡ ¸Â±â°í °¢ path¿¡ ¸Â°Ô ÇÁ·Î±×·¥ »ı¼º
 	static ShaderProgram* Create(
 		const string& v_shader_path,
 		const string& f_shader_path,
 		const string& g_shader_path = nullptr);
 	static ShaderProgram* Create(vector<string> shader_paths);
 
-	static void Unload(const string& key); // keyì— í•´ë‹¹í•˜ëŠ” programì œê±°
-	static void Clear(); // programs ë¹„ìš°ê¸°
+	static void Unload(const string& key); // key¿¡ ÇØ´çÇÏ´Â programÁ¦°Å
+	static void Clear(); // programs ºñ¿ì±â
 
-	static void BindAll(GlobalBuffer*& target); // GlobalBuffer ë“±ë¡ëœ programsì— ëª¨ë‘ Bind
-	void Bind(GlobalBuffer*& target) { target->Bind(program_id); } // GlobalBuffer bind
-	void Bind(UniformBuffer*& target, const string& name) // UniformBuffer bind
+	static void BindAll(GlobalBuffer* target); // GlobalBuffer µî·ÏµÈ programs¿¡ ¸ğµÎ Bind
+	void Bind(GlobalBuffer* target) { target->Bind(program_id); } // GlobalBuffer bind
+	void Bind(UniformBuffer* target, const string& name) // UniformBuffer bind
 	{ target->UpdatePosition(program_id, name); }
 
 	void Use() { glUseProgram(program_id); }
@@ -71,5 +71,7 @@ public:
 	uint GetProgramID() { return program_id; }
 	string GetProgramKey() { return program_key; }
 	uint GetAttachedShadersCount() { return attached_shaders.size(); }
-	vector<Shader*> GetAttachedShaders() { return attached_shaders; }
+	vector<Shader*>& GetAttachedShaders() { return attached_shaders; }
+
+	virtual void GUIRender();
 };

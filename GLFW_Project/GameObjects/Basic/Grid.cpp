@@ -1,8 +1,8 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 Grid::Grid() : width(MAX_VALUE), height(MAX_VALUE) {
-	GridShader = Shader::Load("Assets/GLSL/Grid.vert", "Assets/GLSL/Grid.frag");
-	GridShader->Set();
+	GridShader = ShaderProgram::Create("Assets/GLSL/Grid.vert", "Assets/GLSL/Grid.frag");
+	GridShader->Use();
 
 	//Axis X
 	vertices.emplace_back(VertexColor(static_cast<float>(-MAX_VALUE), 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f));
@@ -46,7 +46,7 @@ Grid::Grid() : width(MAX_VALUE), height(MAX_VALUE) {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	wBuffer = new MatrixBuffer(GridShader->Get_ProgramID(), "world");
+	wBuffer = new MatrixBuffer(GridShader->GetProgramID(), "world");
 	wBuffer->data = Matrix(1.0f);
 }
 
@@ -57,7 +57,7 @@ Grid::~Grid() {
 }
 
 void Grid::Render() {
-	GridShader->Set();
+	GridShader->Use();
 	wBuffer->Set();
 	glBindVertexArray(VertexArrayBuffer);
 	glDrawArrays(GL_LINES, 0, vertices.size());

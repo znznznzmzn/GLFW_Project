@@ -1,4 +1,4 @@
-#include "../../Framework.h"
+#include "../Framework.h"
 
 void Plane::createVertex(int count) {
 	if (count < 1) count = 1;

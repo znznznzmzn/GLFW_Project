@@ -22,13 +22,9 @@ GameManager::GameManager() {
 	SCENE->Add("Scene");
 
 	// GlobalBuffer가(View, Projection 등) 모든 쉐이더에 Bind되도록 설정
-	for (auto elem : Shader::GetShaders()) {
-		MAIN_CAMERA->Bind(elem.second->Get_ProgramID()); // 카메라 View, Porjection 바인딩
-		if (elem.second->Get_Key().find("Grid"    ) == string::npos && // 라이트를 계산할 필요 없는 쉐이더들은
-			elem.second->Get_Key().find("Collider") == string::npos && // 바인드 할 필요가 없음
-			elem.second->Get_Key().find("Sky") == string::npos)
-			MAIN_LIGHT->Bind(elem.second->Get_ProgramID()); // 라이트 쉐이더 바인딩
-	}
+	ShaderProgram::BindAll(MAIN_CAMERA->GetViewBuffer());
+	ShaderProgram::BindAll(MAIN_CAMERA->GetProjectionBuffer());
+	ShaderProgram::BindAll(MAIN_LIGHT); //- 나중에 조건부 BindAll로 수정
 }
 GameManager::~GameManager() { Delete(); }
 
@@ -55,7 +51,8 @@ void GameManager::Render() {
 		SCENE->GUIRender();
 		ImGui::End();
 	}
-	// if (KEY_DOWN(ImGuiKey_F2)) ; //- 텍스처 리소스 관리
+	// if (KEY_DOWN(ImGuiKey_F2)) ; //- 쉐이더 리소스 관리
+	// if (KEY_DOWN(ImGuiKey_F3)) ; //- 텍스처 리소스 관리
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
