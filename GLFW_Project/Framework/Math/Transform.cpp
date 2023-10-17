@@ -31,7 +31,7 @@ bool Transform::Active() {
 
 
 void Transform::Save(string path) {
-	if (path == "") path = "Assets/Data/Transforms/" + tag + ".srt";
+	if (path.size() == 0) path = "Assets/Data/Transforms/" + tag + ".srt";
 	BinaryWriter* w = new BinaryWriter(path);
 	UpdateWorld();
 	w->WriteLine(Utility::String::From(local.Position));
@@ -42,7 +42,7 @@ void Transform::Save(string path) {
 }
 
 void Transform::Load(string path) {
-	if (path == "") path = "Assets/Data/Transforms/" + tag + ".srt";
+	if (path.size() == 0) path = "Assets/Data/Transforms/" + tag + ".srt";
 	BinaryReader* r = new BinaryReader(path);
 	local.Position = Utility::String::ToVector3(r->ReadLine());
 	local.Rotation = Utility::String::ToVector3(r->ReadLine());
@@ -56,12 +56,12 @@ void Transform::SaveAs() {
 	string save_path = 
 		EditorGUI::Dialog_Button_Pattern("Save As",
 			"SaveAs", "Save Transform", ".srt", "Assets\\Data\\Transforms\\.");
-	if (save_path != "") Save(save_path);
+	if (save_path.size() != 0) Save(save_path);
 }
 
 void Transform::LoadFrom() {
 	string save_path =
 		EditorGUI::Dialog_Button_Pattern("Load From", 
 			"LoadFrom", "Load Transform", ".srt", "Assets\\Data\\Transforms\\.");
-	if (save_path != "") Load(save_path);
+	if (save_path.size() != 0) Load(save_path);
 }

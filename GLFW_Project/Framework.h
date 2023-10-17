@@ -170,6 +170,9 @@ typedef function<void()> Event;
 #include "GameObjects/Model/ModelBone.h"
 #include "GameObjects/Model/ModelAnimator.h"
 
+#include "GameObjects/Particles/Particle.h"
+
+
  // Scene Header
 #include "Scenes/Scene.h"
 #include "GameManager/GameManager.h"

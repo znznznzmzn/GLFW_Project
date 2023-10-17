@@ -12,7 +12,7 @@ protected:
 	}
 	~GlobalBuffer() = default;
 public:
-	void Bind(const uint& targetProgramID) { // 필요한 쉐이더 프로그램별로 수행해 주어야 함
+	bool Bind(const uint& targetProgramID) { // 필요한 쉐이더 프로그램별로 수행해 주어야 함
 		uint block_idx = glGetUniformBlockIndex(targetProgramID, block_name.c_str());
 		glUniformBlockBinding(targetProgramID, block_idx, buffer_slot);
 		//cout << "block_idx = \"" << block_name << "\" = " << block_idx << endl;

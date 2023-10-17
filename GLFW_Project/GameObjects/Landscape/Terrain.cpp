@@ -186,7 +186,7 @@ void Terrain::LoadTerrain(string path) {
 void Terrain::LoadTerrainDialog() {
 	string map_path = EditorGUI::Dialog_Button_Pattern(
 		"Load Terrain", "LoadTerrain", "Load Terrain", ".map", "Assets\\Data\\Maps\\.");
-	if (map_path != "") {
+	if (map_path.size() != 0) {
 		LoadTerrain(map_path);
 		UpdateWorld();
 	}

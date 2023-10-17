@@ -8,7 +8,8 @@ namespace Utility {
 		glGetProgramiv(programID, param, &OK);
 		if (!OK) {
 			glGetProgramInfoLog(programID, 512, NULL, Log);
-			cout << "ERROR::" << name << " Log : " << Log << endl;
+			cout << "ERROR::" << name << "::FAILED" << endl;
+			cout << " Log : " << Log << endl;
 		}
 		return OK;
 	}
@@ -77,7 +78,6 @@ namespace Utility {
 				From(Vector4(value[3][0], value[3][1], value[3][2], value[3][3]));
 		}
 
-		string String::GetExtension(string path) { return path.substr(path.find_last_of('.') + 1, path.length()); }
 		void Replace(string& str, const string& compare, const string& replace) {
 			size_t at = 0;
 			while ((at = str.find(compare, at)) != string::npos) {
@@ -85,6 +85,9 @@ namespace Utility {
 				at += replace.length();
 			}
 		}
+
+		string GetExtension(string path) 
+		{ return path.substr(path.find_last_of('.') + 1, path.length()); }
 		string GetFileName(string path) {
 			Replace(path, "\\", "/");
 			return path.substr(path.find_last_of('/') + 1);

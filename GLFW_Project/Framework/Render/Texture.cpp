@@ -32,7 +32,7 @@ void Texture::Init() {
 }
 
 Texture* Texture::Load(const string& path, string key) {
-	if (key == "") key = path;
+	if (key.size() == 0) key = path;
 	if (textures.count(key) > 0) return textures[key];
 	else return textures[key] = new Texture(path);
 }

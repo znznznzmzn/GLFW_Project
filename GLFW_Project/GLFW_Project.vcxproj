@@ -175,6 +175,7 @@
     <ClCompile Include="GameObjects\Model\Model.cpp" />
     <ClCompile Include="GameObjects\Model\ModelBone.cpp" />
     <ClCompile Include="GameObjects\Model\ModelNode.cpp" />
+    <ClCompile Include="GameObjects\Particles\Particle.cpp" />
     <ClCompile Include="Libraries\ImGui\imgui.cpp" />
     <ClCompile Include="Libraries\ImGui\ImGuiFileDialog.cpp" />
     <ClCompile Include="Libraries\ImGui\imgui_draw.cpp" />
@@ -237,6 +238,7 @@
     <ClInclude Include="GameObjects\Model\Model.h" />
     <ClInclude Include="GameObjects\Model\ModelBone.h" />
     <ClInclude Include="GameObjects\Model\ModelNode.h" />
+    <ClInclude Include="GameObjects\Particles\Particle.h" />
     <ClInclude Include="glad\glad.h" />
     <ClInclude Include="Libraries\glm\gtc\type_ptr.hpp" />
     <ClInclude Include="Libraries\ImGui\dirent\dirent.h" />

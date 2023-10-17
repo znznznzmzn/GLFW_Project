@@ -87,7 +87,7 @@ void Material::GUIRender() {
 		{ // Shader
 			string shader_path = EditorGUI::Dialog_Button_Pattern("Load Shader", "LoadShader", 
 				"Load Shader", "ShaderFiles{.frag,.vert}", "Assets\\GLSL\\."); 
-			if (shader_path != "") { 
+			if (shader_path.size() != 0) { 
 				string vpath, fpath; 
 				if (shader_path.find(".frag") == string::npos) { // 선택한게 .frag가 아니라면
 					vpath = shader_path; 
@@ -173,7 +173,7 @@ void Material::GUIRender() {
 }
 
 void Material::SaveMaterial(string path) {
-	if (path == "") path = "Assets/Data/Materials/" + name + ".mat";
+	if (path.size() != 0) path = "Assets/Data/Materials/" + name + ".mat";
 	BinaryWriter* w = new BinaryWriter(path);
 
 	w->WriteLine(name); // 이름
@@ -205,7 +205,7 @@ void Material::SaveMaterial(string path) {
 	this->path = path;
 }
 void Material::LoadMaterial(string path) {
-	if (path == "") {
+	if (path.size() == 0) {
 		cout << "Warning no material path = " << path << endl;
 		return;
 	}

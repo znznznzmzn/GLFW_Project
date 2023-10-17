@@ -27,10 +27,11 @@ namespace Utility {
 		string From(const Vector3& value);
 		string From(const Vector4& value);
 		string From(const Matrix& value);
-		
-		string GetExtension(string path);
+
 		void Replace(string& str, const string& compare, const string& replace);
-		string GetFileName(string path);
-		string GetFileNameWidthoutExtension(string path);
+
+		string GetExtension(string path); // 확장자 반환 (. 제외) 
+		string GetFileName(string path); // 파일명 반환 (확장자 포함)
+		string GetFileNameWidthoutExtension(string path);  // 파일명 반환 (확장자 제외)
 	}
 }
