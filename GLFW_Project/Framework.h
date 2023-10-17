@@ -119,6 +119,7 @@ typedef function<void()> Event;
 
  // Render
 #include "Framework/Render/Shader.h"
+#include "Framework/Render/ShaderProgram.h"
 #include "Framework/Render/Texture.h"
 #include "Framework/Render/Material.h"
 #include "Framework/Render/Mesh.h"
