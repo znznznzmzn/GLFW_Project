@@ -10,7 +10,7 @@ protected:
 public:
 	void UpdatePosition(const uint& targetProgramID, const string& name) {
 		target_position = glGetUniformLocation(targetProgramID, name.c_str());
-		//cout << "target_position Updated to \"" << name << "\" = " << target_position << endl;
+		cout << "target_position Updated to \"" << name << "\" = " << target_position << endl;
 	}
 };
 
@@ -56,6 +56,20 @@ public:
 	{ data = Matrix(1.0f); }
 	void Set() override 
 	{ glUniformMatrix4fv(target_position, 1, GL_FALSE, &data[0][0]); }
+};
+
+class WorldBuffer : protected UniformBuffer { // Matrix 버퍼 고정형 "world"
+public:
+	Matrix world;
+	WorldBuffer(const uint& targetProgramID): UniformBuffer(targetProgramID, "world")
+	{ world = Matrix(1.0f); }
+	void Set() override 
+	{ glUniformMatrix4fv(target_position, 1, GL_FALSE, &world[0][0]); }
+
+	void UpdatePosition(const uint& targetProgramID) {
+		target_position = glGetUniformLocation(targetProgramID, "world");
+		//cout << "target_position Updated to \"" << name << "\" = " << target_position << endl;
+	}
 };
 
 class TextureBuffer : public UniformBuffer {

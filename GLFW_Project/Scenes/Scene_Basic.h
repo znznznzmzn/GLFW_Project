@@ -2,14 +2,13 @@
 
 class Scene_Basic : public Scene {
 private:
+	GeometryObject* test;
 	GameObject* obj;
-	CubeMap* cube_map;
-	//ColorSky* color_sky;
+
 public:
 	Scene_Basic();
 	~Scene_Basic();
 
-	// Scene을(를) 통해 상속됨
 	virtual void Update() override;
 	virtual void PreRender() override;
 	virtual void Render() override;

@@ -1,15 +1,15 @@
 #include "../Framework.h"
 
 void Material::bind() {
-	if (shader == nullptr) {
+	if (materialProgram == nullptr) {
 		cout << "CAUTION >> Material Shader Program = nullptr" << endl;
 		return;
 	}
-	shader->Use();
-	shader->Bind(mBuffer);
-	shader->Bind(diffuseMapBuffer , "diffuseMap");
-	shader->Bind(specularMapBuffer, "specularMap");
-	shader->Bind(normalMapBuffer  , "normalMap");
+	materialProgram->Use();
+	materialProgram->Bind(mBuffer);
+	materialProgram->Bind(diffuseMapBuffer , "diffuseMap");
+	materialProgram->Bind(specularMapBuffer, "specularMap");
+	materialProgram->Bind(normalMapBuffer  , "normalMap");
 }
 
 void Material::init(const int& shader_id) {
@@ -24,9 +24,9 @@ void Material::init(const int& shader_id) {
 
 Material::Material() { init(0); }
 Material::Material(const string& vshader_path, const string& fshader_path) {
-	shader = ShaderProgram::Create(vshader_path, fshader_path);
-	shader->Use();
-	init(shader->GetProgramID());
+	materialProgram = ShaderProgram::Create(vshader_path, fshader_path);
+	materialProgram->Use();
+	init(materialProgram->GetProgramID());
 	bind();
 }
 Material::~Material() { 
@@ -37,7 +37,7 @@ Material::~Material() {
 }
 
 void Material::Set() {
-	shader->Use();
+	materialProgram->Use();
 	if (diffuseMap) {
 		diffuseMap->Set(diffuseMapBuffer->slot);
 		diffuseMapBuffer->Set();
@@ -55,7 +55,7 @@ void Material::Set() {
 
 void Material::SetShader(const string& vshader_path, const string& fshader_path) { 
 	if (is_shader_locked) return;
-	shader = ShaderProgram::Create(vshader_path, fshader_path); 
+	materialProgram = ShaderProgram::Create(vshader_path, fshader_path); 
 	bind();
 }
 
@@ -96,7 +96,7 @@ void Material::GUIRender() {
 		// Shader
 		ImGui::Checkbox("ShaderLock", &is_shader_locked);
 		if(!is_shader_locked)
-			shader->GUIRender();
+			materialProgram->GUIRender();
 
 		// Material Color
 		ImGui::ColorEdit4 ("Diffuse" , (float*)&mBuffer->data.diffuse );
@@ -173,10 +173,10 @@ void Material::SaveMaterial(string path) {
 	w->WriteLine(name); // ÀÌ¸§
 
 	{
-		if (shader != nullptr) { // shader
-			w->WriteLine(shader->GetProgramKey()); // shader_key
-			w->WriteLine(Utility::String::From(shader->GetAttachedShadersCount())); // shader_count
-			for (Shader*& elem : shader->GetAttachedShaders()) // shaders
+		if (materialProgram != nullptr) { // shader
+			w->WriteLine(materialProgram->GetProgramKey()); // shader_key
+			w->WriteLine(Utility::String::From(materialProgram->GetAttachedShadersCount())); // shader_count
+			for (Shader*& elem : materialProgram->GetAttachedShaders()) // shaders
 				w->WriteLine(elem->GetShaderPath());
 		}
 		else {
@@ -218,7 +218,7 @@ void Material::LoadMaterial(string path) {
 		for (uint i = 0; i < shader_count; i++) // shaders
 			shader_paths.emplace_back(r->ReadLine());
 		if (shader_count != 0) 
-			shader = ShaderProgram::Create(shader_paths);
+			materialProgram = ShaderProgram::Create(shader_paths);
 	}
 
 	mBuffer->data.diffuse  = Utility::String::ToVector4(r->ReadLine());

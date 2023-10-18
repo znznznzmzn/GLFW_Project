@@ -67,7 +67,9 @@ void ModelNode::LoadModel(string model_name) {
 
 ModelNode::ModelNode(string model_name) {
 	LoadModel(model_name);
-	SetShaders("Assets/GLSL/Universal.vert", "Assets/GLSL/Universal.frag");
+	SetShaders(
+		"Assets/GLSL/Universal/Universal.vert", 
+		"Assets/GLSL/Universal/Universal.frag");
 }
 ModelNode::~ModelNode() {
 	SAFE_DELETE(wBuffer);

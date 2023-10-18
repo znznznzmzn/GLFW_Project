@@ -11,8 +11,8 @@ protected:
 	UniversalMesh* mesh;
 	MatrixBuffer* wBuffer;
 	virtual void init(
-		string vshader_path = "Assets/GLSL/Universal.vert", 
-		string fshader_path = "Assets/GLSL/Universal.frag");
+		string vshader_path = "Assets/GLSL/Universal/Universal.vert", 
+		string fshader_path = "Assets/GLSL/Universal/Universal.frag");
 public:
 	~GameObject();
 	virtual void Render();

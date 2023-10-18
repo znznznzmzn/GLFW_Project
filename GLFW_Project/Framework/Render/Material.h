@@ -5,7 +5,7 @@ private:
 	string path = "";
 	string name = "Default";
 
-	ShaderProgram* shader = nullptr;
+	ShaderProgram* materialProgram = nullptr;
 	bool is_shader_locked = false;
 
 	Texture* diffuseMap = nullptr;
@@ -25,7 +25,7 @@ public:
 	Material(const string& vshader_path, const string& fshader_path);
 	~Material();
 
-	void UseProgram() { shader->Use(); }
+	void UseProgram() { materialProgram->Use(); }
 	void Set();
 
 	void SetDiffuseMap (string path);
@@ -41,7 +41,7 @@ public:
 	string GetSpecularPath();
 	string GetNormalPath();
 
-	const uint& Get_ProgramID() { return shader->GetProgramID(); }
+	const uint& Get_ProgramID() { return materialProgram->GetProgramID(); }
 
 	void GUIRender();
 

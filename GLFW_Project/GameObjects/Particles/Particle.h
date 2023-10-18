@@ -3,7 +3,11 @@
 class Particle : public Transform {
 protected:
 	const uint MAX_COUNT = 10000;
-	uint particleCount;
+	ShaderProgram* particleProgram = nullptr;
+	WorldBuffer* wBuffer = nullptr;
+	uint particleCount = 1000;
+	bool isDepthMask = true;
+	// bool isBlending = true; 블렌드는 Billboard를 작업한 후에 생각하자
 public:
 	Particle();
 	virtual ~Particle();

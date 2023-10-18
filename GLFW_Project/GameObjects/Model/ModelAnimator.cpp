@@ -95,7 +95,9 @@ void ModelAnimator::CreateClipTransform(uint index) {
 
 ModelAnimator::ModelAnimator(string model_name) {
 	LoadModel(model_name);
-	SetShaders("Assets/GLSL/ModelAnimator.vert", "Assets/GLSL/Universal.frag");
+	SetShaders(
+		"Assets/GLSL/Universal/ModelAnimator.vert", 
+		"Assets/GLSL/Universal/Universal.frag");
 	LockShader();
 	fBuffer = new FrameBuffer();
 	fBuffer->Bind(commonProgramID);

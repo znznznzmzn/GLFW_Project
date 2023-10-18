@@ -36,7 +36,9 @@ void ColorSky::CreateMesh(int slice, int stack, float radius) {
 }
 
 ColorSky::ColorSky(int slice, int stack, float radius) {
-	skyShader = ShaderProgram::Create("Assets/GLSL/Sky.vert", "Assets/GLSL/SkyColor.frag");
+	skyShader = ShaderProgram::Create(
+		"Assets/GLSL/Landscape/Sky.vert", 
+		"Assets/GLSL/Landscape/SkyColor.frag");
 	CreateMesh(slice, stack, radius);
 	skyColorBuffer = new SkyColorBuffer();
 	skyColorBuffer->Bind(skyShader->GetProgramID());

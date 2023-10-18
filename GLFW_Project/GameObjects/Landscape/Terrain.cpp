@@ -63,14 +63,18 @@ void Terrain::CreateBuffers() {
 }
 
 Terrain::Terrain(const uint& width, const uint& height) : Size(width, height) {
-	init("Assets/GLSL/Terrain.vert", "Assets/GLSL/Terrain.frag");
+	init(
+		"Assets/GLSL/Landscape/Terrain.vert", 
+		"Assets/GLSL/Landscape/Terrain.frag");
 	material->LockShader();
 	CreateMesh();
 	UpdateWorld();
 	Tag() = "terrain";
 }
 Terrain::Terrain(const string& path) {
-	init("Assets/GLSL/Terrain.vert", "Assets/GLSL/Terrain.frag");
+	init(
+		"Assets/GLSL/Landscape/Terrain.vert", 
+		"Assets/GLSL/Landscape/Terrain.frag");
 	material->LockShader();
 	LoadTerrain(path);
 	UpdateWorld();
@@ -171,7 +175,9 @@ void Terrain::LoadTerrain(string path) {
 	alphaMap  = Texture::Load(r->ReadLine());
 
 	material->LoadMaterial(r->ReadLine());
-	material->SetShader("Assets/GLSL/Terrain.vert", "Assets/GLSL/Terrain.frag");
+	material->SetShader(
+		"Assets/GLSL/Landscape/Terrain.vert", 
+		"Assets/GLSL/Landscape/Terrain.frag");
 
 	secondDiffuseMap  = Texture::Load(r->ReadLine());  // Second
 	secondSpecularMap = Texture::Load(r->ReadLine());

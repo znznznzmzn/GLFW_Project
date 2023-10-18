@@ -1,8 +1,9 @@
 #include "../Framework.h"
 
 Grid::Grid() : width(MAX_VALUE), height(MAX_VALUE) {
-	int a = 1 + 1;
-	GridShader = ShaderProgram::Create("Assets/GLSL/Grid.vert", "Assets/GLSL/Grid.frag");
+	GridShader = ShaderProgram::Create(
+		"Assets/GLSL/Universal/Grid.vert", 
+		"Assets/GLSL/Universal/Grid.frag");
 	GridShader->Use();
 
 	//Axis X

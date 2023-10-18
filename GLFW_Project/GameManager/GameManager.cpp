@@ -24,7 +24,7 @@ GameManager::GameManager() {
 	// GlobalBuffer가(View, Projection 등) 모든 쉐이더에 Bind되도록 설정
 	ShaderProgram::BindAll(MAIN_CAMERA->GetViewBuffer());
 	ShaderProgram::BindAll(MAIN_CAMERA->GetProjectionBuffer());
-	ShaderProgram::BindAll(MAIN_LIGHT); //- 나중에 조건부 BindAll로 수정
+	ShaderProgram::BindAll(MAIN_LIGHT); //- 나중에 조건부 BindAll 제작
 }
 GameManager::~GameManager() { Delete(); }
 

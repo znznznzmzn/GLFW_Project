@@ -9,7 +9,9 @@ void Collider::CreateMesh() {
 }
 
 Collider::Collider(TYPE collider_type) : collider_type(collider_type) {
-	colliderShader = ShaderProgram::Create("Assets/GLSL/Collider.vert", "Assets/GLSL/Collider.frag");
+	colliderShader = ShaderProgram::Create(
+		"Assets/GLSL/Universal/Collider.vert", 
+		"Assets/GLSL/Universal/Collider.frag");
 	wBuffer = new MatrixBuffer(colliderShader->GetProgramID(), "world");
 	collider_colorBuffer = new Vector4Buffer(colliderShader->GetProgramID(), "collider_color");
 	collider_colorBuffer->data = COLOR_NORMAL;

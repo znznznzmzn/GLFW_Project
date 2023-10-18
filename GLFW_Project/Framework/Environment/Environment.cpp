@@ -62,5 +62,8 @@ void Environment::CreateState() {
 	glCullFace(GL_FRONT); // > GL_BACK
 	glFrontFace(GL_CW); // > GL_CCW
 
-	glEnable(GL_TEXTURE_2D_ARRAY);
+	glEnable(GL_TEXTURE_2D_ARRAY); // Texture2DArray
+	
+	glEnable(GL_BLEND); // BlendState
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }

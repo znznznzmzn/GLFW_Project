@@ -79,7 +79,6 @@ public:
 	}
 };
 
-
 class MaterialBuffer : public GlobalBuffer {
 public:
 	struct Data {

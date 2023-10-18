@@ -31,7 +31,8 @@ Shader::Shader(const string& shader_path, GLenum shader_type) {
 	glShaderSource(shader_id, 1, &sourcePointer, NULL);
 	glCompileShader(shader_id);
 
-	Utility::CheckOK(shader_id, GL_COMPILE_STATUS, SHADER_TYPE_NAME_TABLE.at(shader_type) + "::COMPILATION");
+	if (Utility::CheckOK(shader_id, GL_COMPILE_STATUS, SHADER_TYPE_NAME_TABLE.at(shader_type) + "::COMPILATION"))
+		cout << "COMPILE SHADER::SUCCESS >> " << SHADER_TYPE_NAME_TABLE.at(shader_type) << " " << shader_path << endl;
 	
 	SAFE_DELETE(reader);
 }

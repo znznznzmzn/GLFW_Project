@@ -26,7 +26,9 @@ void ModelBone::SetUniformBuffer() { // Shader가 설정된 후의 지점
 
 ModelBone::ModelBone(string model_name) {
 	LoadModel(model_name);
-	SetShaders("Assets/GLSL/ModelBone.vert", "Assets/GLSL/Universal.frag");
+	SetShaders(
+		"Assets/GLSL/Universal/ModelBone.vert", 
+		"Assets/GLSL/Universal/Universal.frag");
 	LockShader();
 	SetBones();
 }

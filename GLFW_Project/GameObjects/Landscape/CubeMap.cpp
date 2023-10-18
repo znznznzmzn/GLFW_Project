@@ -37,7 +37,9 @@ void CubeMap::CreateMesh(int slice, int stack) {
 }
 
 CubeMap::CubeMap(int slice, int stack) {
-	skyShader = ShaderProgram::Create("Assets/GLSL/Sky.vert", "Assets/GLSL/SkyCube.frag");
+	skyShader = ShaderProgram::Create(
+		"Assets/GLSL/Landscape/Sky.vert", 
+		"Assets/GLSL/Landscape/SkyCube.frag");
 	CreateMesh(slice, stack);
 	cubeMapBuffer = new TextureBuffer(skyShader->GetProgramID(), "cubeMap");
 	cubeMapBuffer->slot = 0;
