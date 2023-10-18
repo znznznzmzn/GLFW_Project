@@ -94,7 +94,9 @@ void Material::GUIRender() {
 		}
 
 		// Shader
-		shader->GUIRender();
+		ImGui::Checkbox("ShaderLock", &is_shader_locked);
+		if(!is_shader_locked)
+			shader->GUIRender();
 
 		// Material Color
 		ImGui::ColorEdit4 ("Diffuse" , (float*)&mBuffer->data.diffuse );

@@ -12,7 +12,7 @@ protected:
 	}
 	~GlobalBuffer() = default;
 public:
-	bool Bind(const uint& targetProgramID) { // 필요한 쉐이더 프로그램별로 수행해 주어야 함
+	void Bind(const uint& targetProgramID) { // 필요한 쉐이더 프로그램별로 수행해 주어야 함
 		uint block_idx = glGetUniformBlockIndex(targetProgramID, block_name.c_str());
 		glUniformBlockBinding(targetProgramID, block_idx, buffer_slot);
 		//cout << "block_idx = \"" << block_name << "\" = " << block_idx << endl;
@@ -20,7 +20,7 @@ public:
 	virtual void Set() = 0;
 };
 
-// 글로벌 버퍼는 한곳에서 관리하도록 
+// 글로벌 버퍼는 여기서 관리하도록 
 // 잘못하다간 꼬인다
 // 꼬여서 8시간 날렸다...
 
@@ -152,4 +152,5 @@ public:
 		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(data), &data);
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	}
-}
+}; // ; 안쓴거 실화냐?... 
+// 이 쌍노메걸로 5시간 잡아먹힌거 실화냐?...

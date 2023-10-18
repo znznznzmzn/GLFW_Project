@@ -1,15 +1,15 @@
 #include "../Framework.h"
 
+const char AUTO_KEY_SPLITER = '&';
+
 // ShaderProgram
 unordered_map<string, ShaderProgram*> ShaderProgram::programs;
-
 ShaderProgram::ShaderProgram(const string& program_key) {
 	this->program_key = program_key;
 	this->program_id = glCreateProgram();
 }
-ShaderProgram::~ShaderProgram() { // programs에 대하여 의존성이 없으면 glDeleteProgram 
+ShaderProgram::~ShaderProgram() { 
 	if (!dependency) glDeleteProgram(this->program_id);
-	// attached_shaders.clear(); 궂이?
 }
 
 void ShaderProgram::Attach(Shader* shader) {
@@ -19,19 +19,21 @@ void ShaderProgram::Attach(Shader* shader) {
 			return;
 		}
 	}
+	attached_shaders.push_back(shader);
 	glAttachShader(program_id, shader->GetShaderID());
-	attached_shaders.emplace_back(shader);
 }
+void ShaderProgram::Attach(const string& shader_path, GLenum shader_type) 
+{ Attach(Shader::Load(shader_path, shader_type)); }
 
 void ShaderProgram::Detach(Shader* shader) {
 	glDetachShader(program_id, shader->GetShaderID());
 	bool isfound = false;
-	for (int i = 0; i < attached_shaders.size(); i++) {
+	for (uint i = 0; i < attached_shaders.size(); i++) {
 		if (attached_shaders[i]->GetShaderPath().compare(shader->GetShaderPath()) == 0) {
 			attached_shaders.erase(attached_shaders.begin() + i);
-			return; // 리턴시키기
+			return; 
 		}
-	} // 안그럼 경고
+	} 
 	cout << "The shader dosn,t exist, shader = " << shader->GetShaderID() << endl;
 }
 
@@ -51,25 +53,32 @@ string ShaderProgram::MakeAutoKey(vector<string> paths) {
 }
 string ShaderProgram::MakeAutoKey(ShaderProgram*& target) {
 	vector<string> paths;
-	for (Shader* shader : target->attached_shaders)
-		paths.emplace_back(shader->GetShaderPath());
+	for (Shader*& elem : target->attached_shaders)
+		paths.emplace_back(elem->GetShaderPath());
 	return ShaderProgram::MakeAutoKey(paths);
 }
 
+vector<string> ShaderProgram::DecomposeAutoKey(string target_auto_key)
+{ return Utility::String::Split(target_auto_key, AUTO_KEY_SPLITER); }
+
 void ShaderProgram::Register(ShaderProgram*& target) {
-	//- 중복검사?
 	programs[target->GetProgramKey()] = target;
 	target->dependency = true;
 }
+
+bool ShaderProgram::IsExist(const string& key) { return programs.count(key) > 0; }
+
+ShaderProgram* ShaderProgram::GetProgram(const string& key) 
+{ return IsExist(key) ? programs[key] : nullptr; }
 
 ShaderProgram* ShaderProgram::Find(vector<string> shaderPaths) {
 	for (auto& program : programs) {
 		vector<Shader*>& target_shaders = program.second->attached_shaders;
 		if (target_shaders.size() == shaderPaths.size()) {
 			int correction = 0;
-			for (Shader* shader : target_shaders) {
-				for (string shader_path : shaderPaths) {
-					if (shader_path.compare(shader->GetShaderPath()) == 0) correction++;
+			for (Shader*& shader : target_shaders) {
+				for (string& path : shaderPaths) {
+					if (path.compare(shader->GetShaderPath()) == 0) correction++;
 				}
 			}
 			if (correction == target_shaders.size()) return program.second;
@@ -151,27 +160,31 @@ void ShaderProgram::BindAll(GlobalBuffer* target)
 { for (auto& elem : programs) elem.second->Bind(target); }
 
 void ShaderProgram::GUIRender() {
-	if (ImGui::TreeNode(("ShaderProgram : " + program_key).c_str())) {
-		{ // program_key
-			char name_buf[128] = "";
-			if (ImGui::InputTextWithHint("program_key", program_key.c_str(), name_buf, IM_ARRAYSIZE(name_buf))) {
-				if (KEY_DOWN(ImGuiKey_Enter)) {
-					if (dependency) programs.erase(program_key);
-					program_key = string(name_buf);
-					if (dependency) programs[program_key] = this;
-				}
-			}
-		}
+	if (ImGui::TreeNode(("Program : " + program_key).c_str())) {
+		//- 쉐이더 조작은 추후 작업
+		//- 현재로선 쉐이더 리스트만 보이도록 작성
+		//- { // program_key
+		//- 	char name_buf[128] = "";
+		//- 	if (ImGui::InputTextWithHint("program_key", program_key.c_str(), name_buf, IM_ARRAYSIZE(name_buf))) {
+		//- 		if (KEY_DOWN(ImGuiKey_Enter)) {
+		//- 			if (dependency) programs.erase(program_key);
+		//- 			program_key = string(name_buf);
+		//- 			if (dependency) programs[program_key] = this;
+		//- 		}
+		//- 	}
+		//- }
 		{ // Shader
 			for (Shader*& shader : attached_shaders) {
 				ImGui::LabelText("", shader->GetShaderPath().c_str()); 
-				ImGui::SameLine();
-				if (ImGui::Button("Detach")) Detach(shader);
+				
+				//- ImGui::SameLine();
+				//- if (ImGui::Button("Detach")) Detach(shader);
 			}
-			string shader_path = EditorGUI::Dialog_Button_Pattern("Attach Shader", "AttachShader",
-				"Attach Shader", EditorGUI::filter_shader.c_str(), "Assets\\GLSL\\.");
-			if (shader_path.size() != 0) Attach(shader_path);
-			if (ImGui::Button("Try Link")) Link();
+			//- string shader_path = EditorGUI::Dialog_Button_Pattern("Attach Shader", "AttachShader",
+			//- 	"Attach Shader", EditorGUI::filter_shader.c_str(), "Assets\\GLSL\\.");
+			//- if (shader_path.size() != 0) Attach(shader_path);
+			//- if (ImGui::Button("Try Link")) Link();
 		}
+		ImGui::TreePop();
 	}
 }

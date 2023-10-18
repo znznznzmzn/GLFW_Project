@@ -2,8 +2,8 @@
 
 // Shader const
 const unordered_map<string, GLenum> EXTENSION_TABLE = {
-	{"vs"  , GL_VERTEX_SHADER},
-	{"vert", GL_VERTEX_SHADER},
+	{"vs"  , GL_VERTEX_SHADER  },
+	{"vert", GL_VERTEX_SHADER  },
 	{"fs"  , GL_FRAGMENT_SHADER},
 	{"frag", GL_FRAGMENT_SHADER},
 	{"gs"  , GL_GEOMETRY_SHADER},
@@ -11,8 +11,8 @@ const unordered_map<string, GLenum> EXTENSION_TABLE = {
 };
 const unordered_map<GLenum, string> SHADER_TYPE_NAME_TABLE = {
 	{GL_VERTEX_SHADER  , "GL_VERTEX_SHADER"  },
-	{GL_FRAGMENT_SHADER, "GL_FRAGMENT_SHADER"  },
-	{GL_GEOMETRY_SHADER, "GL_GEOMETRY_SHADER"  }
+	{GL_FRAGMENT_SHADER, "GL_FRAGMENT_SHADER"},
+	{GL_GEOMETRY_SHADER, "GL_GEOMETRY_SHADER"}
 };
 
 // Shader
@@ -32,9 +32,7 @@ Shader::Shader(const string& shader_path, GLenum shader_type) {
 	glCompileShader(shader_id);
 
 	Utility::CheckOK(shader_id, GL_COMPILE_STATUS, SHADER_TYPE_NAME_TABLE.at(shader_type) + "::COMPILATION");
-		
-	shaderSource.clear();
-	SAFE_DELETE(sourcePointer);
+	
 	SAFE_DELETE(reader);
 }
 
@@ -53,10 +51,22 @@ Shader* Shader::Load(const string& shader_path, GLenum shader_type) {
 		}
 	}
 
-	Shader* target = Shader::Find(shader_path);
-	if (target) return target;
-	return new Shader(shader_path, shader_type);
+	Shader* result = Shader::Find(shader_path);
+	if (result) return result;
+	else result = new Shader(shader_path, shader_type);
+	shaders[shader_path] = result;
+	return result;
 }
+
+Shader* Shader::Load_VS(const string& shader_path)
+{ return Shader::Load(shader_path, GL_VERTEX_SHADER); } // VertexShader
+Shader* Shader::Load_FS(const string& shader_path)
+{ return Shader::Load(shader_path, GL_FRAGMENT_SHADER); } // FragmentShader
+Shader* Shader::Load_GS(const string& shader_path)
+{ return Shader::Load(shader_path, GL_GEOMETRY_SHADER); } // GeometryShader
+
+Shader* Shader::Find(const string & shader_path)
+{ return (shaders.count(shader_path) > 0) ? shaders[shader_path] : nullptr; }
 
 void Shader::Unload(const string& shader_path) {
 	Shader* target = Shader::Find(shader_path);

@@ -66,7 +66,8 @@ void GameManager::Delete() {
 	SceneManager::Delete();
 
 	Environment::Delete();
-	Shader ::Clear();
+	Shader::Clear();
+	ShaderProgram::Clear();
 	Texture::Clear();
 
 	ImGui_ImplOpenGL3_Shutdown();
