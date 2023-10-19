@@ -32,7 +32,7 @@ Shader::Shader(const string& shader_path, GLenum shader_type) {
 	glCompileShader(shader_id);
 
 	if (Utility::CheckOK(shader_id, GL_COMPILE_STATUS, SHADER_TYPE_NAME_TABLE.at(shader_type) + "::COMPILATION"))
-		cout << "COMPILE SHADER::SUCCESS >> " << SHADER_TYPE_NAME_TABLE.at(shader_type) << " " << shader_path << endl;
+		cout << "SHADER::COMPILATION::SUCCESS >> " << SHADER_TYPE_NAME_TABLE.at(shader_type) << " " << shader_path << endl;
 	
 	SAFE_DELETE(reader);
 }
@@ -48,6 +48,7 @@ Shader* Shader::Load(const string& shader_path, GLenum shader_type) {
 		shader_type = Shader::Identify(shader_path);
 		if (shader_type == NULL) {
 			cout << "FATAL_ERORR!! unidentified shader_type = " << shader_type << ", returning nullptr" << endl;
+			cout << "Path = " << shader_path  << endl;
 			return nullptr;
 		}
 	}
@@ -86,5 +87,9 @@ void Shader::Clear() {
 	shaders.clear();
 }
 
-void Shader::PrintShader() 
-{ printf("SHADER >> id : %d, type : %s, path : %s \n", shader_id, SHADER_TYPE_NAME_TABLE.at(shader_type), shader_path); }
+void Shader::PrintShader() {
+	printf("SHADER >> id : %d, type : %s, path : %s \n", 
+		shader_id, 
+		SHADER_TYPE_NAME_TABLE.at(shader_type).c_str(), 
+		shader_path.c_str()); 
+}

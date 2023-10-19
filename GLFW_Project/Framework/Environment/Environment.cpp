@@ -65,5 +65,6 @@ void Environment::CreateState() {
 	glEnable(GL_TEXTURE_2D_ARRAY); // Texture2DArray
 	
 	glEnable(GL_BLEND); // BlendState
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
 }

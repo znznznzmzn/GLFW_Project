@@ -116,6 +116,7 @@ typedef function<void()> Event;
 #include "Framework/Buffer/VertexLayout.h"
 #include "Framework/Buffer/UniformBuffer.h"
 #include "Framework/Buffer/GlobalBuffer.h"
+#include "Framework/Buffer/VertexBuffer.h"
 
  // Render
 #include "Framework/Render/Shader.h"
@@ -171,8 +172,9 @@ typedef function<void()> Event;
 #include "GameObjects/Model/ModelBone.h"
 #include "GameObjects/Model/ModelAnimator.h"
 
-#include "GameObjects/Particles/GeometryObject.h"
 #include "GameObjects/Particles/Particle.h"
+#include "GameObjects/Particles/Rain.h"
+#include "GameObjects/Particles/Snow.h"
 
 
  // Scene Header

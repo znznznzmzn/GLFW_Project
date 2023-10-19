@@ -37,7 +37,7 @@ public:
 		const string& key,
 		const string& v_shader_path, 
 		const string& f_shader_path,
-		const string& g_shader_path = "");
+		const string& g_shader_path);
 	static ShaderProgram* Create(
 		const string& v_shader_path,
 		const string& f_shader_path,
@@ -56,7 +56,7 @@ public:
 
 	const uint& GetProgramID() { return program_id; }
 	const string& GetProgramKey() { return program_key; }
-	const uint& GetAttachedShadersCount() { return attached_shaders.size(); }
+	uint GetAttachedShadersCount() { return attached_shaders.size(); }
 	vector<Shader*>& GetAttachedShaders() { return attached_shaders; }
 
 	virtual void GUIRender();

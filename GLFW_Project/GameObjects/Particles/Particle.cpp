@@ -1,18 +1,24 @@
 ﻿#include "../Framework.h"
 
-Particle::Particle() {
-	particleCount = MAX_COUNT;
-	wBuffer = new WorldBuffer(0);
+void Particle::SetUniform() {
+	wBuffer->world = world;
+	wBuffer->Set();
+	vBuffer->Set();
 }
 
-Particle::~Particle() { SAFE_DELETE(wBuffer); }
+Particle::Particle() { particleCount = MAX_COUNT; }
+Particle::~Particle() { 
+	SAFE_DELETE(wBuffer);
+	SAFE_DELETE(vBuffer);
+}
 
 void Particle::Render() {
 	if (!Active()) return;
 	particleProgram->Use();
-	glDepthMask(GL_FALSE);
-	//-
-	glDepthMask(GL_TRUE);
+	SetUniform();
+	//glDepthMask(GL_FALSE);
+	glDrawArrays(GL_POINTS, 0, particleCount);
+	//glDepthMask(GL_TRUE);
 }
 
 void Particle::Play(Vector3 pos) {

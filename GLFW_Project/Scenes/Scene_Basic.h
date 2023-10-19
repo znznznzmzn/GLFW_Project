@@ -2,9 +2,8 @@
 
 class Scene_Basic : public Scene {
 private:
-	GeometryObject* test;
-	GameObject* obj;
-
+	Cube* obj;
+	Rain* weather;
 public:
 	Scene_Basic();
 	~Scene_Basic();

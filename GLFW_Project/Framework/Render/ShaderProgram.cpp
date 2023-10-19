@@ -38,7 +38,7 @@ void ShaderProgram::Detach(Shader* shader) {
 }
 
 void ShaderProgram::Link() {
-	cout << ">> SHADER_PROGRAM::LINK (id : " << program_id << ")" << endl;
+	cout << ">> SHADER_PROGRAM::LINK >> " << program_key << endl;
 	glLinkProgram(program_id);
 	if (Utility::CheckOK(program_id, GL_LINK_STATUS, "SHADER_PROGRAM::LINK_FAILED")) {
 		for (Shader* shader : attached_shaders)

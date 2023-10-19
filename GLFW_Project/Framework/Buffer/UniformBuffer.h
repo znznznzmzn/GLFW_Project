@@ -10,7 +10,7 @@ protected:
 public:
 	void UpdatePosition(const uint& targetProgramID, const string& name) {
 		target_position = glGetUniformLocation(targetProgramID, name.c_str());
-		cout << "target_position Updated to \"" << name << "\" = " << target_position << endl;
+		//cout << "target_position Updated to \"" << name << "\" = " << target_position << endl;
 	}
 };
 

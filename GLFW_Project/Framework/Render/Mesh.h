@@ -3,32 +3,32 @@
 template <typename T>
 class Mesh {
 protected:
-	uint VertexArrayBuffer = -1; // VAO
-	uint VertexBuffer = -1; // VBO
-	uint IndexBuffer = -1; //EBO
+	uint vertex_array_id = -1; // VAO
+	uint vertex_buffer_id = -1; // VBO
+	uint index_buffer_id = -1; //EBO
 	Mesh() {
-		glGenVertexArrays(1, &VertexArrayBuffer);
-		glGenBuffers(1, &VertexBuffer);
-		glGenBuffers(1, &IndexBuffer);
+		glGenVertexArrays(1, &vertex_array_id);
+		glGenBuffers(1, &vertex_buffer_id);
+		glGenBuffers(1, &index_buffer_id);
 	}
 	~Mesh() {
-		glDeleteVertexArrays(1, &VertexArrayBuffer);
-		glDeleteBuffers(1, &VertexBuffer);
-		glDeleteBuffers(1, &IndexBuffer); 
+		glDeleteVertexArrays(1, &vertex_array_id);
+		glDeleteBuffers(1, &vertex_buffer_id);
+		glDeleteBuffers(1, &index_buffer_id); 
 	}
 public:
-	void Set() { glBindVertexArray(VertexArrayBuffer); }
+	void Set() { glBindVertexArray(vertex_array_id); }
 	void UpdateMesh(const vector<T>& vertices, const vector<uint>& indices) {
-		glBindVertexArray(VertexArrayBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
+		glBindVertexArray(vertex_array_id);
+		glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
 		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(T), vertices.data(), GL_STATIC_DRAW);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_id);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint), indices.data(), GL_STATIC_DRAW);
 		glBindVertexArray(0);
 	}
 	void UpdateVertex(const vector<T>& vertices) {
-		glBindVertexArray(VertexArrayBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
+		glBindVertexArray(vertex_array_id);
+		glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
 		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(T), vertices.data(), GL_STATIC_DRAW);
 		glBindVertexArray(0);
 	}

@@ -2,12 +2,12 @@
 
 // PositionMesh
 PositionMesh::PositionMesh(const vector<Vector3>& vertices, const vector<uint>& indices) : Mesh<Vector3>() {
-	glBindVertexArray(VertexArrayBuffer);
+	glBindVertexArray(vertex_array_id);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vector3), vertices.data(), GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_id);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint), indices.data(), GL_STATIC_DRAW);
 
 	// pos
@@ -23,12 +23,12 @@ UVMesh::UVMesh(
 	const vector<VertexUV>& vertices,
 	const vector<uint>& indices) :
 	Mesh<VertexUV>() {
-	glBindVertexArray(VertexArrayBuffer);
+	glBindVertexArray(vertex_array_id);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(VertexUV), vertices.data(), GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_id);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint), indices.data(), GL_STATIC_DRAW);
 
 	uint stride = sizeof(VertexUV);
@@ -48,12 +48,12 @@ ColorMesh::ColorMesh(
 	const vector<VertexColor>& vertices, 
 	const vector<uint>& indices) : 
 	Mesh<VertexColor>() {
-	glBindVertexArray(VertexArrayBuffer);
+	glBindVertexArray(vertex_array_id);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(VertexColor), vertices.data(), GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_id);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint), indices.data(), GL_STATIC_DRAW);
 
 	uint stride = sizeof(VertexColor);
@@ -74,12 +74,12 @@ UniversalMesh::UniversalMesh(
 	const vector<Vertex>& vertices, 
 	const vector<uint>& indices) : 
 	Mesh<Vertex>() {
-	glBindVertexArray(VertexArrayBuffer);
+	glBindVertexArray(vertex_array_id);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_id);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint), indices.data(), GL_STATIC_DRAW);
 
 	uint stride = sizeof(Vertex);
@@ -110,12 +110,12 @@ ModelMesh::ModelMesh(
 	Mesh<ModelVertex>() {
 	index_count = indices.size();
 
-	glBindVertexArray(VertexArrayBuffer);
+	glBindVertexArray(vertex_array_id);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_id);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(ModelVertex), vertices.data(), GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index_buffer_id);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(uint), indices.data(), GL_STATIC_DRAW);
 
 	uint stride = sizeof(ModelVertex);

@@ -2,16 +2,20 @@
 
 class Particle : public Transform {
 protected:
-	const uint MAX_COUNT = 10000;
+	const uint MAX_COUNT = 4096;
 	ShaderProgram* particleProgram = nullptr;
+
 	WorldBuffer* wBuffer = nullptr;
-	uint particleCount = 1000;
-	bool isDepthMask = true;
-	// bool isBlending = true; 블렌드는 Billboard를 작업한 후에 생각하자
+	VertexBuffer* vBuffer = nullptr;
+
+	uint particleCount = 0;
+
+	virtual void SetUniform();
+
+	Particle(); // 불완전한 프로그램이기에 따로 생성 불가
+	~Particle();
 public:
-	Particle();
-	virtual ~Particle();
-	virtual void Update() = 0;
+	virtual void Update() = 0; // 순수가상함수또한 포함
 	virtual void Render();
 	virtual void GUIRender() = 0;
 
