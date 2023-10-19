@@ -19,7 +19,6 @@ BoxCollider::BoxCollider(Vector3 size) : Collider(TYPE::BOX) {
 		4, 5, 5, 7, 7, 6, 6, 4,
 		0, 4, 1, 5, 2, 6, 3, 7
 	};
-
 	CreateMesh();
 }
 

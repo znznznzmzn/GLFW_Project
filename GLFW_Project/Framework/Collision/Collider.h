@@ -8,7 +8,7 @@ class Collider : public Transform {
 private:
 	ShaderProgram* colliderShader;
 	MatrixBuffer* wBuffer = nullptr;
-	Vector4Buffer* collider_colorBuffer;
+	ColorBuffer* collider_colorBuffer;
 	PositionMesh* mesh;
 protected:
 	enum class TYPE : uint { POINT, SPHERE, CAPSULE, BOX } collider_type = TYPE::POINT;

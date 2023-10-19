@@ -16,9 +16,7 @@ void Particle::Render() {
 	if (!Active()) return;
 	particleProgram->Use();
 	SetUniform();
-	//glDepthMask(GL_FALSE);
 	glDrawArrays(GL_POINTS, 0, particleCount);
-	//glDepthMask(GL_TRUE);
 }
 
 void Particle::Play(Vector3 pos) {

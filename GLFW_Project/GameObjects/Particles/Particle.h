@@ -19,6 +19,6 @@ public:
 	virtual void Render();
 	virtual void GUIRender() = 0;
 
-	virtual void Play(Vector3 pos);
+	virtual void Play(Vector3 pos = Vector3(0, 0, 0));
 	void Stop();
 };

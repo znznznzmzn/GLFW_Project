@@ -49,6 +49,7 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <ImGuiFileDialog.h>
+#pragma comment(lib, "ImGui.lib")
 
 // basic
 #include <iostream>
@@ -81,6 +82,7 @@
 #include "Libraries/glm/gtx/euler_angles.hpp"
 #include "Libraries/glm/gtc/type_ptr.hpp"
 
+typedef glm::vec4 Color;
 typedef glm::vec4 Vector4;
 typedef glm::vec3 Vector3;
 typedef glm::vec2 Vector2;

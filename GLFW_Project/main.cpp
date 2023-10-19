@@ -1,4 +1,4 @@
-#include "Framework.h"
+ï»¿#include "Framework.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void window_size_callback(GLFWwindow* window, int width, int height);
@@ -14,27 +14,31 @@ int main() {
 	last_delta = 0.0f;
 	delta = 0.0f;
 
-	// glfw init
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // ¹öÀü 4
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6); // .6
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwWindowHint(GLFW_SAMPLES, 4);
+	cout << "<<< INIT_INFO >>>" << endl;
+
+	{ // glfw init (window)
+		glfwInit();
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4); // ë²„ì „ 4
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6); // .6
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+		glfwWindowHint(GLFW_SAMPLES, 4);
+	}
 
 	// Window creation
 	GLFWwindow* window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "OpenGL Example", NULL, NULL);
 	if (!window) {
-		std::cerr << "À©µµ¿ì »ý¼º ½ÇÆÐ" << '\n';
+		std::cerr << "ìœˆë„ìš° ìƒì„± ì‹¤íŒ¨" << '\n';
 		glfwTerminate();
 		exit(-1);
 	}
 	glfwMakeContextCurrent(window);
-	
+
 	// CallBacks
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glfwSetWindowSizeCallback(window, window_size_callback);
-	// glfwÅ°¸¶ ³Ê¹« ±ØÇøÀÌ¶ó ImGui ¾²±â·Î ÇÔ
+	// glfwí‚¤ë§ˆ ë„ˆë¬´ ê·¹í˜ì´ë¼ ImGui ì“°ê¸°ë¡œ í•¨
+	// ë‚˜ì¤‘ì— ì¡°ì •
 
 	{ // ImGui
 		// Context
@@ -53,23 +57,30 @@ int main() {
 		ImGui_ImplOpenGL3_Init("#version 460");
 	}
 
-	glfwSwapInterval(1);
-
-	// Info
-	glewExperimental = GL_TRUE;
-	GLenum err = glewInit();
-	if (err != GLEW_OK) {
-		std::cerr << "GLEW ÃÊ±âÈ­ ½ÇÆÐ " << glewGetErrorString(err) << '\n';
-		glfwTerminate();
-		exit(-1);
+	{ // Info
+		glewExperimental = GL_TRUE;
+		GLenum err = glewInit();
+		if (err != GLEW_OK) {
+			cerr << "GLEW ì´ˆê¸°í™” ì‹¤íŒ¨ " << glewGetErrorString(err) << '\n';
+			glfwTerminate();
+			exit(-1);
+		}
+		cout << "Version : " << glGetString(GL_VERSION) << '\n'; // version
 	}
-	std::cout << "Version : " << glGetString(GL_VERSION) << '\n'; // version
-	//{ // print extensions
+
+	//{ // extensions
 	//	int nr_extensions = 0;
 	//	glGetIntegerv(GL_NUM_EXTENSIONS, &nr_extensions);
 	//	for (int i = 0; i < nr_extensions; ++i)
 	//		std::cout << glGetStringi(GL_EXTENSIONS, i) << '\n';
 	//}
+
+	{ // Device Info
+		cout << "Device info" << endl;
+		cout << "Decice Vendor : " << glGetString(GL_VENDOR) << endl;
+		cout << "Render Decice : " << glGetString(GL_RENDERER) << endl;
+	}
+	cout << "<<< END_INFO >>>" << endl << endl;
 
 	// init
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);

@@ -72,9 +72,6 @@
     <ClCompile Include="Framework\Render\Material.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Libraries\ImGui\ImGuiFileDialog.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Framework\Utility\BinaryWriter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -138,24 +135,6 @@
     <ClCompile Include="Framework\Model\ModelBinary.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Libraries\ImGui\imgui.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Libraries\ImGui\imgui_draw.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Libraries\ImGui\imgui_impl_glfw.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Libraries\ImGui\imgui_impl_opengl3.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Libraries\ImGui\imgui_widgets.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Libraries\ImGui\imgui_tables.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="GameObjects\Model\ModelBone.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -190,6 +169,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="GameObjects\Particles\Rain.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\ImGui\ImGuiFileDialog.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -272,15 +254,6 @@
     <ClInclude Include="Framework\Render\Material.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Libraries\ImGui\dirent\dirent.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries\ImGui\ImGuiFileDialog.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries\ImGui\ImGuiFileDialogConfig.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Framework\Buffer\GlobalBuffer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -350,33 +323,6 @@
     <ClInclude Include="GameObjects\Model\ModelBone.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Libraries\ImGui\imgui_internal.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries\ImGui\imconfig.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries\ImGui\imgui.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries\ImGui\imgui_impl_glfw.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries\ImGui\imgui_impl_opengl3.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries\ImGui\imgui_impl_opengl3_loader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries\ImGui\imstb_rectpack.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries\ImGui\imstb_textedit.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries\ImGui\imstb_truetype.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="GameObjects\Model\ModelNode.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -410,6 +356,15 @@
     <ClInclude Include="GameObjects\Particles\Rain.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Libraries\ImGui\ImGuiFileDialog.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\ImGui\ImGuiFileDialogConfig.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\ImGui\dirent\dirent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glfw3.dll" />
@@ -419,5 +374,6 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\assimp\assimp-vc143-mtd.lib" />
+    <Library Include="Libraries\ImGui\ImGui.lib" />
   </ItemGroup>
 </Project>

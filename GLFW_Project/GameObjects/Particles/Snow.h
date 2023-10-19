@@ -9,7 +9,7 @@ private:
 		Vector3(0.0f, 0.0f, 0.0f),       // origin
 		0.0f,                            // time
 		Vector3(50.0f, 50.0f, 50.0f),    // size
-		5.0f                             // turbulence
+		1.0f                             // turbulence
 	};
 private:
 	WeatherBuffer* snowBuffer = nullptr;

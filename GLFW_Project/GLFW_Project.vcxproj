@@ -79,11 +79,15 @@
       <AdditionalIncludeDirectories>$(ProjectDir)Libraries\assimp\;$(ProjectDir)Libraries\GLFW\include\;$(ProjectDir)Libraries\GLEW\include\;$(ProjectDir)Libraries\glm\;$(ProjectDir)Libraries\ImGui\;$(ProjectDir)Libraries\stbi\;$(ProjectDir)Libraries\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)Libraries\GLFW\lib;$(ProjectDir)Libraries\GLEW\lib;$(ProjectDir)Libraries\assimp\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libraries\GLFW\lib;$(ProjectDir)Libraries\GLEW\lib;$(ProjectDir)Libraries\assimp\;$(ProjectDir)Libraries\ImGui\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -98,13 +102,17 @@
       <AdditionalIncludeDirectories>$(ProjectDir)Libraries\assimp\;$(ProjectDir)Libraries\GLFW\include\;$(ProjectDir)Libraries\GLEW\include\;$(ProjectDir)Libraries\glm\;$(ProjectDir)Libraries\ImGui\;$(ProjectDir)Libraries\stbi\;$(ProjectDir)Libraries\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)Libraries\GLFW\lib;$(ProjectDir)Libraries\GLEW\lib;$(ProjectDir)Libraries\assimp\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libraries\GLFW\lib;$(ProjectDir)Libraries\GLEW\lib;$(ProjectDir)Libraries\assimp\;$(ProjectDir)Libraries\ImGui\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -180,13 +188,7 @@
     <ClCompile Include="GameObjects\Particles\Particle.cpp" />
     <ClCompile Include="GameObjects\Particles\Rain.cpp" />
     <ClCompile Include="GameObjects\Particles\Snow.cpp" />
-    <ClCompile Include="Libraries\ImGui\imgui.cpp" />
     <ClCompile Include="Libraries\ImGui\ImGuiFileDialog.cpp" />
-    <ClCompile Include="Libraries\ImGui\imgui_draw.cpp" />
-    <ClCompile Include="Libraries\ImGui\imgui_impl_glfw.cpp" />
-    <ClCompile Include="Libraries\ImGui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="Libraries\ImGui\imgui_tables.cpp" />
-    <ClCompile Include="Libraries\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Libraries\stbi\stb_image.cpp" />
     <ClCompile Include="Libraries\stbi\stb_image_write.cpp" />
     <ClCompile Include="main.cpp" />
@@ -250,17 +252,8 @@
     <ClInclude Include="glad\glad.h" />
     <ClInclude Include="Libraries\glm\gtc\type_ptr.hpp" />
     <ClInclude Include="Libraries\ImGui\dirent\dirent.h" />
-    <ClInclude Include="Libraries\ImGui\imconfig.h" />
-    <ClInclude Include="Libraries\ImGui\imgui.h" />
     <ClInclude Include="Libraries\ImGui\ImGuiFileDialog.h" />
     <ClInclude Include="Libraries\ImGui\ImGuiFileDialogConfig.h" />
-    <ClInclude Include="Libraries\ImGui\imgui_impl_glfw.h" />
-    <ClInclude Include="Libraries\ImGui\imgui_impl_opengl3.h" />
-    <ClInclude Include="Libraries\ImGui\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="Libraries\ImGui\imgui_internal.h" />
-    <ClInclude Include="Libraries\ImGui\imstb_rectpack.h" />
-    <ClInclude Include="Libraries\ImGui\imstb_textedit.h" />
-    <ClInclude Include="Libraries\ImGui\imstb_truetype.h" />
     <ClInclude Include="Libraries\stbi\stb_image.h" />
     <ClInclude Include="Libraries\stbi\stb_image_write.h" />
     <ClInclude Include="Scenes\Scene.h" />
@@ -279,6 +272,7 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="Libraries\assimp\assimp-vc143-mtd.lib" />
+    <Library Include="Libraries\ImGui\ImGui.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

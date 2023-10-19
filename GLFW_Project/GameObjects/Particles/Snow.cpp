@@ -28,7 +28,8 @@ void Snow::SetUniform() {
 	snowBuffer->Set();
 	snowTexture->Set(snowMapBuffer->slot);
 	snowMapBuffer->Set();
-	Particle::SetUniform();
+	vBuffer->Set();
+	// Particle::SetUniform(); // world.position == origin
 }
 
 Snow::Snow() : Particle() {

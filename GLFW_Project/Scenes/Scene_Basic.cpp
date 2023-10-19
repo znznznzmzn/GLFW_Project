@@ -3,7 +3,7 @@
 
 Scene_Basic::Scene_Basic() {
 	obj = new Cube();
-	weather = new Rain();
+	weather = new Snow();
 	weather->Play(Vector3(0, 0, 0));
 }
 

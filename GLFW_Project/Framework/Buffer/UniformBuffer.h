@@ -48,6 +48,7 @@ public:
 	void Set() override 
 	{ glUniform4fv(target_position, 1, &data[0]); }
 };
+typedef Vector4Buffer ColorBuffer;
 class MatrixBuffer : public UniformBuffer {
 public:
 	Matrix data;

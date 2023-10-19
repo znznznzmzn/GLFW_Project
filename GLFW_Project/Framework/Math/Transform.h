@@ -1,10 +1,10 @@
 #pragma once
 
 class Transform {
-private:
+protected:
 	Transformation local;
 	Transformation global;
-protected:
+
 	Vector3 pivot = Vector3(0.0f, 0.0f, 0.0f);
 	Matrix  world = Matrix(1);
 	Transform* parentTransform = nullptr;

@@ -24,7 +24,8 @@ void Rain::SetUniform() {
 	rainBuffer->Set();
 	rainTexture->Set(rainMapBuffer->slot);
 	rainMapBuffer->Set();
-	Particle::SetUniform();
+	vBuffer->Set();
+	// Particle::SetUniform(); // world.position == origin
 }
 
 Rain::Rain() : Particle() {

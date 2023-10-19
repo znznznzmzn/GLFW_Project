@@ -44,9 +44,9 @@ bool Collider::Collision(Collider* collider) {
 
 	switch (collider->collider_type) {
 	case Collider::TYPE::POINT:   return collider->Position() == Position();
-	case Collider::TYPE::BOX:     return BoxCollision    ((BoxCollider*    )collider);
-	case Collider::TYPE::SPHERE:  return SphereCollision ((SphereCollider* )collider);
-	case Collider::TYPE::CAPSULE: return CapsuleCollision((CapsuleCollider*)collider);
+	case Collider::TYPE::BOX:     return BoxCollision    (static_cast<BoxCollider*    >(collider));
+	case Collider::TYPE::SPHERE:  return SphereCollision (static_cast<SphereCollider* >(collider));
+	case Collider::TYPE::CAPSULE: return CapsuleCollision(static_cast<CapsuleCollider*>(collider));
 	default: break;
 	}
 

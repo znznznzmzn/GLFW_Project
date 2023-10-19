@@ -31,8 +31,7 @@ void main() {
 	vec4 position = gl_in[0].gl_Position;
 
 	vec3 up = normalize(-gs_in[0].gs_velocity);
-    vec3 forward = position.xyz - inverse_view[3].xyz;
-    forward = normalize(forward);
+    vec3 forward = normalize(position.xyz - inverse_view[3].xyz);
     vec3 right = normalize(cross(up, forward));
 	
     vec2 halfSize = gs_in[0].gs_size * 0.5;
