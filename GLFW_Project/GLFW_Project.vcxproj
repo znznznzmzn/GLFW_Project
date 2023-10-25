@@ -151,6 +151,7 @@
     <ClCompile Include="Framework\Collision\CapsuleCollider.cpp" />
     <ClCompile Include="Framework\Collision\Collider.cpp" />
     <ClCompile Include="Framework\Collision\SphereCollider.cpp" />
+    <ClCompile Include="Framework\Audio\Audio.cpp" />
     <ClCompile Include="Framework\Environment\Camera.cpp" />
     <ClCompile Include="Framework\Environment\Environment.cpp" />
     <ClCompile Include="Framework\Environment\Tween.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="Framework\Collision\CapsuleCollider.h" />
     <ClInclude Include="Framework\Collision\Collider.h" />
     <ClInclude Include="Framework\Collision\SphereCollider.h" />
+    <ClInclude Include="Framework\Audio\Audio.h" />
     <ClInclude Include="Framework\Environment\Camera.h" />
     <ClInclude Include="Framework\Environment\Environment.h" />
     <ClInclude Include="Framework\Environment\Tween.h" />

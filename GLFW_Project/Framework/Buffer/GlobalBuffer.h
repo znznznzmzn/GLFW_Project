@@ -158,13 +158,13 @@ public:
 class WeatherBuffer : public GlobalBuffer { // WeatherBuffer 버퍼 6
 public: // Rain, Snow버퍼의 인수가 동일하기에 초기화만 다르게 세팅하고 동일하게 사용
 	struct Data {
-		Vector3 velocity;
-		float drawDistance;
-		Vector4 particleColor;
-		Vector3 origin;
-		float time;
-		Vector3 size;
-		float turbulence;
+		Vector3 velocity = Vector3(0, 0, 0);
+		float drawDistance = 0;
+		Vector4 particleColor = Vector4(0, 0, 0, 0);
+		Vector3 origin = Vector3(0, 0, 0);
+		float time = 0;
+		Vector3 size = Vector3(0, 0, 0);
+		float turbulence = 0;
 	} data;
 	WeatherBuffer(const string& name) : GlobalBuffer(name, 6) {
 		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);

@@ -2,6 +2,8 @@
 #include "Scene_Collision.h"
 
 Scene_Collision::Scene_Collision() {
+	audio = Audio::Load("Assets/Audio/[Blue Archive] Unwelcome School.wav");
+
 	collider1 = new BoxCollider();
 	collider1->Tag() = "col_1";
 	collider1->Position().x -= 10;
@@ -23,6 +25,10 @@ Scene_Collision::Scene_Collision() {
 		indicator[i]->Scale() *= 0.1f;
 		indicator[i]->UpdateWorld();
 	}
+
+	audio->SetLoop(true);
+	audio->SetVolume(1.0f);
+	audio->Play();
 }
 Scene_Collision::~Scene_Collision() {
 	SAFE_T_DELETE(collider1);

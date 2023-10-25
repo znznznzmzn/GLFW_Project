@@ -35,10 +35,10 @@ void Camera::Update() {
 void Camera::MakeProjection() { 
 	switch (projection_type) {
 	case Camera::PROJECTION_TYPE::PERSPECTIVE:
-		pBuffer->data.Projection = glm::perspective(glm::radians(fov), aspect(), near, far);
+		pBuffer->data.Projection = glm::perspective(glm::radians(Fov), aspect(), Near, Far);
 		break;
 	case Camera::PROJECTION_TYPE::ORTHOGRAPHIC:
-		pBuffer->data.Projection = glm::ortho(offset_x, width, offset_y, height, near, far);
+		pBuffer->data.Projection = glm::ortho(pivot.x, Width, pivot.y, Height, Near, Far);
 		break;
 	default:
 		cout << "Warning on Camera, Wrong projection_type = " << (uint)projection_type << endl;

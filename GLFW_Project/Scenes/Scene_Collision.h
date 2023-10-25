@@ -9,6 +9,8 @@ private:
 
 	BoxCollider* indicator[3];
 
+	Audio* audio;
+
 	vector<Vector3> v;
 public:
 	Scene_Collision();

@@ -53,6 +53,7 @@ void GameManager::Render() {
 	}
 	// if (KEY_DOWN(ImGuiKey_F2)) ; //- 溅捞歹 府家胶 包府
 	// if (KEY_DOWN(ImGuiKey_F3)) ; //- 咆胶贸 府家胶 包府
+	// if (KEY_DOWN(ImGuiKey_F4)) ; //- 荤款靛 府家胶 包府
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
@@ -62,6 +63,7 @@ void GameManager::Create() {
 
 	Environment::Get();
 	Texture::Init();
+	Audio::Init();
 }
 
 void GameManager::Delete() {
@@ -71,6 +73,7 @@ void GameManager::Delete() {
 	Shader::Clear();
 	ShaderProgram::Clear();
 	Texture::Clear();
+	Audio::Clear();
 
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();

@@ -65,6 +65,7 @@
 #include <memory>
 #include <stdexcept>
 #include <filesystem>
+#include <xaudio2.h>
 
 // GL
 #include <GLEW/glew.h>
@@ -149,6 +150,8 @@ typedef function<void()> Event;
 // #include "Framework/Collision/RectangleCollider.h" -> 2D
 
  // Environment
+//#include "Framework/Audio/AudioSource.h"
+#include "Framework/Audio/Audio.h"
 #include "Framework/Environment/Camera.h"
 #include "Framework/Environment/Tween.h"
 #include "Framework/Environment/Environment.h"

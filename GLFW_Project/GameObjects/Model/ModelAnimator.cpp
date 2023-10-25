@@ -49,7 +49,7 @@ void ModelAnimator::CreateClipTexture() {
 	for (uint c = 0; c < clipCount; c++) {
 		void* pixel = malloc(pageSize); // make
 		for (uint y = 0; y < max_frame; y++) {
-			void* line_point = (byte*)pixel + lineSize * y;
+			void* line_point = (std::byte*)pixel + lineSize * y;
 			if (y >= clips[c]->frameCount) memcpy(line_point, new Matrix[max_bone], lineSize);
 			else memcpy(line_point, clipTransforms[c]->transform[y].data(), lineSize);
 		}
