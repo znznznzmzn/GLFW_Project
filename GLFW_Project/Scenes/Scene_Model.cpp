@@ -2,10 +2,10 @@
 #include "Scene_Model.h"
 
 Scene_Model::Scene_Model() {
-	model = new ModelAnimator("PotMan");
-	model->ReadClip("DancingTwerk", 0);
+	model = new ModelBone("PotMan");
+	//model->ReadClip("DancingTwerk", 0);
 	//model->ReadClip("HappyIdle", 0);
-	model->PlayClip(0);
+	//model->PlayClip(0);
 	model->Load();
 }
 Scene_Model::~Scene_Model() {
@@ -13,7 +13,7 @@ Scene_Model::~Scene_Model() {
 }
 
 void Scene_Model::Update() {
-	model->UpdateFrame();
+	//model->UpdateFrame();
 	model->UpdateWorld();
 }
 void Scene_Model::PreRender() {

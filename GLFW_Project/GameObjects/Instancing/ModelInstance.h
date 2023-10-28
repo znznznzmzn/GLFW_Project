@@ -15,6 +15,8 @@ protected:
 
 	virtual void InitUniformBuffer() { }
 	virtual void SetUniformBuffer () { }
+
+	ModelInstance() = default;
 public:
 	ModelInstance(string model_name, uint instanceCount = 100);
 

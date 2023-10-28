@@ -3,8 +3,8 @@
 
 Scene_Basic::Scene_Basic() {
 	obj = new Cube();
-	instance = new ModelInstance("Knife", 1);
-	instance->Arrange_RandomRange(Vector3(0, 0, 0), 1);
+	instance = new ModelBoneInstance("PotMan", 16);
+	instance->Arrange_Flat(2.0f, Vector3(0, 0, 0), Vector3(0.01f, 0.01f, 0.01f));
 }
 
 Scene_Basic::~Scene_Basic() {

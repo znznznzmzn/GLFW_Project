@@ -1,7 +1,8 @@
 #pragma once
 
 class ModelBone : public Model {
-private:
+protected:
+	friend class ModelBoneInstance;
 	class BoneBuffer : public UniformBuffer {
 	public:
 		Matrix bones[MAX_BONES];
@@ -11,8 +12,9 @@ private:
 		{ glUniformMatrix4fv(target_position, MAX_BONES, GL_FALSE, glm::value_ptr(bones[0])); }
 		void SetBone(Matrix matrix, uint index) { bones[index] = glm::transpose(matrix);  }
 	}* boneBuffer = nullptr;
+
 	void SetBones();
-protected:
+
 	virtual void InitUniformBuffer() override;
 	virtual void SetUniformBuffer() override;
 public:

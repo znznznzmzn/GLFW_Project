@@ -1,7 +1,7 @@
 #pragma once
 
 class Scene_ModelExport : public Scene {
-	Model* model;
+	ModelAnimator* model;
 
 public:
 	Scene_ModelExport();

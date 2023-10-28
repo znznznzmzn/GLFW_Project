@@ -1,7 +1,7 @@
 #pragma once
 
 class Scene_Model : public Scene {
-	ModelAnimator* model;
+	ModelBone* model;
 public:
 	Scene_Model();
 	~Scene_Model();

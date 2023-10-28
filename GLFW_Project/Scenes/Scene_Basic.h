@@ -3,7 +3,7 @@
 class Scene_Basic : public Scene {
 private:
 	Cube* obj;
-	ModelInstance* instance;
+	ModelBoneInstance* instance;
 public:
 	Scene_Basic();
 	~Scene_Basic();

@@ -15,10 +15,10 @@ protected:
 	void ClearController();
 
 	void CreateInstance();
-
+public:
 	Instance(uint instanceCount = 100) { instance_count = instanceCount; };
 	~Instance() { ClearController(); };
-public:
+
 	void Arrange_Flat(float gap = 1, Vector3 position = Vector3(0, 0, 0), Vector3 scale = Vector3(1, 1, 1)); // instance_count에 따라 정렬
 	void Arrange_3D(float gap = 1, Vector3 position = Vector3(0, 0, 0), Vector3 scale = Vector3(1, 1, 1)); // instance_count에 따라 3D로 정렬
 
