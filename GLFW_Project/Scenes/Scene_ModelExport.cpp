@@ -2,29 +2,30 @@
 #include "Scene_ModelExport.h"
 
 Scene_ModelExport::Scene_ModelExport() {
-	string model_name = "PotMan";
-	 // Model
 	ModelExporter* exporter = new ModelExporter();
+
+	string model_name = "Knife";
+	 // Model
 	exporter->ExportModel(model_name);
-	SAFE_DELETE(exporter);
 
 	 // Anim
-	//string anim_name = "HappyIdle";
-	//ModelExporter* exporter = new ModelExporter();
+	//exporter->ExportClip("HappyIdle");
 	//exporter->ExportClip("DancingTwerk");
-	//SAFE_DELETE(exporter);
 
-	model = new ModelAnimator(model_name);
-	model->ReadClip("HappyIdle");
-	model->PlayClip(0);
-	model->Load();
+	model = new Model(model_name);
+	//model->ReadClip("HappyIdle");
+	//model->ReadClip("DancingTwerk");
+	//model->PlayClip(0);
+	//model->Load();
+
+	SAFE_DELETE(exporter);
 }
 Scene_ModelExport::~Scene_ModelExport() {
 	SAFE_DELETE(model);
 }
 
 void Scene_ModelExport::Update() {
-	model->UpdateFrame();
+	//model->UpdateFrame();
 	model->UpdateWorld();
 }
 

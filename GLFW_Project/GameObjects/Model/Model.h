@@ -6,7 +6,7 @@ protected:
 	int commonProgramID = 0;
 	ModelData* data = nullptr;
 	map<Material*, vector<ModelMesh*>> render_map;
-	MatrixBuffer* wBuffer = nullptr;
+	WorldBuffer* wBuffer = nullptr;
 
 	virtual void InitUniformBuffer();
 	virtual void SetUniformBuffer();
@@ -23,4 +23,8 @@ public:
 	void LockShader(bool isLock = true) { is_shader_locked = isLock; }
 
 	void SetShaders(string vshaderpath, string fshaderpath);
+
+	Material* GetCommonMaterial() { return render_map.begin()->first; }
+
+	ModelData*& GetData() { return data; }
 };

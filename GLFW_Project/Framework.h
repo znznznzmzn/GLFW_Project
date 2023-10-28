@@ -78,6 +78,7 @@
 // glm
 #include <glm.hpp>
 #include "Libraries/glm/gtc/matrix_transform.hpp"
+#include "Libraries/glm/gtx/matrix_decompose.hpp"
 #include "Libraries/glm/gtx/transform.hpp"
 #include "Libraries/glm/gtx/quaternion.hpp"
 #include "Libraries/glm/gtx/euler_angles.hpp"
@@ -138,8 +139,10 @@ typedef function<void()> Event;
 #include "Framework/Utility/EditorGUI.h" 
 
  // Math
+#include "Framework/Math/Point.h"
 #include "Framework/Math/Calc.h"
 #include "Framework/Math/Transformation.h"
+#include "Framework/Math/TransformPointer.h"
 #include "Framework/Math/Transform.h"
 
  // Collision
@@ -176,6 +179,12 @@ typedef function<void()> Event;
 #include "GameObjects/Model/ModelNode.h"
 #include "GameObjects/Model/ModelBone.h"
 #include "GameObjects/Model/ModelAnimator.h"
+
+#include "GameObjects/Instancing/Instance.h"
+#include "GameObjects/Instancing/GameObjectInstance.h"
+#include "GameObjects/Instancing/ModelInstance.h"
+#include "GameObjects/Instancing/ModelBoneInstance.h"
+#include "GameObjects/Instancing/ModelAnimatorInstance.h"
 
 #include "GameObjects/Particles/Particle.h"
 #include "GameObjects/Particles/Rain.h"

@@ -167,7 +167,7 @@ void Material::GUIRender() {
 }
 
 void Material::SaveMaterial(string path) {
-	if (path.size() != 0) path = "Assets/Data/Materials/" + name + ".mat";
+	if (path.size() == 0) path = "Assets/Data/Materials/" + name + ".mat";
 	BinaryWriter* w = new BinaryWriter(path);
 
 	w->WriteLine(name); // 이름
@@ -181,7 +181,7 @@ void Material::SaveMaterial(string path) {
 		}
 		else {
 			w->WriteLine(""); // shader_key = nullptr
-			w->WriteLine(0); // shader_count = 0
+			w->WriteLine(Utility::String::From(0)); // shader_count = 0
 		}
 	}
 
@@ -217,8 +217,17 @@ void Material::LoadMaterial(string path) {
 		vector<string> shader_paths;
 		for (uint i = 0; i < shader_count; i++) // shaders
 			shader_paths.emplace_back(r->ReadLine());
-		if (shader_count != 0) 
-			materialProgram = ShaderProgram::Create(shader_paths);
+		if (shader_count != 0 && !is_shader_locked) { // 읽은 쉐이더가 있고&&, 마테리얼의 쉐이더에 락이 걸려있지 않으면
+			if (shader_key.size() != 0) {
+				materialProgram = new ShaderProgram(shader_key);
+				for(string& elem : shader_paths) materialProgram->Attach(elem);
+				materialProgram->Link();
+				ShaderProgram::Register(materialProgram);
+			}
+			else materialProgram = ShaderProgram::Create(shader_paths);
+		}
+		//- 글로벌 버퍼는 쉐이더 차원에서 재등록?
+		//- 유니폼 버퍼는 어느 시점에서 업데이트?
 	}
 
 	mBuffer->data.diffuse  = Utility::String::ToVector4(r->ReadLine());
@@ -237,5 +246,12 @@ void Material::LoadMaterial(string path) {
 	SAFE_DELETE(r);
 
 	this->path = path;
+}
+
+void Material::CopyMaterial(Material* mat) {
+	mBuffer->data = mat->GetData();
+	SetDiffuseMap (mat->GetDiffusePath());
+	SetSpecularMap(mat->GetSpecularPath());
+	SetNormalMap  (mat->GetNormalPath());
 }
 

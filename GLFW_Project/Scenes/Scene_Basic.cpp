@@ -3,29 +3,29 @@
 
 Scene_Basic::Scene_Basic() {
 	obj = new Cube();
-	weather = new Snow();
-	weather->Play(Vector3(0, 0, 0));
+	instance = new ModelInstance("Knife", 1);
+	instance->Arrange_RandomRange(Vector3(0, 0, 0), 1);
 }
 
 Scene_Basic::~Scene_Basic() {
-	SAFE_T_DELETE(weather);
+	SAFE_DELETE(instance);
 	SAFE_T_DELETE(obj);
 }
 
 void Scene_Basic::Update() {
 	obj->UpdateWorld();
-	weather->Update();
+	//instance->UpdateWorld();
 }
 void Scene_Basic::PreRender() {
 }
 void Scene_Basic::Render() {
 	obj->Render();
-	weather->Render();
+	instance->Render();
 }
 void Scene_Basic::PostRender() {
 }
 
 void Scene_Basic::GUIRender() {
 	obj->GUIRender();
-	weather->GUIRender();
+	instance->GUIRender();
 }

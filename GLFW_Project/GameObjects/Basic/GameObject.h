@@ -9,7 +9,7 @@ protected:
 
 	Material* material;
 	UniversalMesh* mesh;
-	MatrixBuffer* wBuffer;
+	WorldBuffer* wBuffer;
 	virtual void init(
 		string vshader_path = "Assets/GLSL/Universal/Universal.vert", 
 		string fshader_path = "Assets/GLSL/Universal/Universal.frag");
@@ -20,6 +20,7 @@ public:
 
 	vector<Vertex>&	GetVertices() { return vertices; }
 	vector<uint>& GetIndices() { return indices; }
+
 	Material*& GetMaterial() { return material; }
-	void SetMaterial(string file) { material->LoadMaterial(file); };
+	void SetMaterial(string file) { material->LoadMaterial(file); }; //- 마테리얼 변경시 uniform재설정하긔
 };

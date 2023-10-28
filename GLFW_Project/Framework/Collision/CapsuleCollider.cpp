@@ -34,6 +34,8 @@ CapsuleCollider::CapsuleCollider(float height) : Collider(TYPE::CAPSULE) {
         }
     }
 	CreateMesh();
+
+    this->height = height;
 }
 CapsuleCollider::~CapsuleCollider() { }
 

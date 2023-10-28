@@ -48,8 +48,11 @@ public:
 	void SaveMaterial(string path);
 	void LoadMaterial(string path);
 
+	void CopyMaterial(Material* mat); // 태그와 쉐이더를 제외한 모든 정보 복사
+
 	void LockShader(bool isLock = true) { is_shader_locked = isLock; }
 
+	MaterialBuffer::Data& GetData() { return mBuffer->data; }
 	Vector4& GetData_Diffuse () { return mBuffer->data.diffuse  ; }
 	Vector4& GetData_Specular() { return mBuffer->data.specular ; }
 	Vector4& GetData_Emissive() { return mBuffer->data.emissive ; }

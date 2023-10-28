@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class Particle : public Transform {
+interface Particle : public Transform {
 protected:
 	const uint MAX_COUNT = 4096;
 	ShaderProgram* particleProgram = nullptr;

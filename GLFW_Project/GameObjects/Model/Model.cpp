@@ -2,7 +2,7 @@
 
 void Model::InitUniformBuffer() {
 	SAFE_DELETE(wBuffer);
-	wBuffer = new MatrixBuffer(commonProgramID, "world");
+	wBuffer = new WorldBuffer(commonProgramID);
 }
 void Model::SetUniformBuffer() { wBuffer->Set(); }
 
@@ -39,7 +39,7 @@ Model::~Model() {
 
 void Model::Render() {
 	if (!Active()) return;
-	wBuffer->data = world;
+	wBuffer->world = world;
 	for (auto elem : render_map) {
 		elem.first->Set(); // Material(Shader) Set
 		SetUniformBuffer();

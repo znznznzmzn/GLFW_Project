@@ -2,7 +2,7 @@
 
 void GameObject::init(string vshader_path, string fshader_path) {
 	material = new Material(vshader_path, fshader_path);
-	wBuffer = new MatrixBuffer(material->Get_ProgramID(), "world");
+	wBuffer = new WorldBuffer(material->Get_ProgramID());
 	mesh = new UniversalMesh(vertices, indices);
 	world = Matrix(1.0f);
 
@@ -17,7 +17,7 @@ GameObject::~GameObject() {
 void GameObject::Render() {
 	if (!Active()) return;
 	material->Set();
-	wBuffer->data = world;
+	wBuffer->world = world;
 	wBuffer->Set();
 	mesh->Set();
 	glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, (void*)0);
@@ -33,12 +33,3 @@ void GameObject::GUIRender() {
 		ImGui::TreePop();
 	}
 }
-
-//void GameObject::InstancingRender(uint instanceCount) {
-//	if (!Active()) return;
-//	wBuffer->Set(world);
-//	wBuffer->SetVSBuffer(0);
-//	mesh->IASet();
-//	material->Set();
-//	DC->DrawIndexedInstanced(indices.size(), instanceCount, 0, 0, 0);
-//}

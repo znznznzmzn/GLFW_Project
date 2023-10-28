@@ -10,27 +10,6 @@ struct Contact {
 	float distance = 0;
 };
 
-class Point { // float2 말고 int2를 용이하게 사용하기위해 생성
-public:
-	int x, y;
-	Point() : x(0), y(0) { }
-	Point(int x, int y) : x(x), y(y) { }
-	Point(uint x, uint y) : x(static_cast<int>(x)), y(static_cast<int>(y)) { }
-	Point(float x, float y) : x(static_cast<int>(floor(x))), y(static_cast<int>(floor(y))) { }
-	Point(Vector2 vec2) : Point(vec2.x, vec2.y) { }
-	Point(Vector3 vec3) : Point(vec3.x, vec3.y) { }
-	operator Vector2() { return Vector2(x, y); }
-	operator Vector3() { return Vector3(x, y, 0); }
-	Point operator-(const int& value) const { return Point(x - value, y - value); }
-	Point operator+(const int& value) const { return Point(x + value, y + value); }
-	Point operator-(const float& value) const { return Point(x - value, y - value); }
-	Point operator+(const float& value) const { return Point(x + value, y + value); }
-	Point operator-(const Point& value) const { return Point(x - value.x, y - value.y); }
-	Point operator+(const Point& value) const { return Point(x + value.x, y + value.y); }
-	bool operator==(const Point& value) const { return x == value.x && y == value.y; }
-	bool operator!=(const Point& value) const { return !(*this == value); }
-};
-
 namespace Calc { // 수학식 
 	float const PI = 3.141592f;
 	float const PI2 = PI * 2.0f;

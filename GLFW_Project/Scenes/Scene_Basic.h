@@ -3,7 +3,7 @@
 class Scene_Basic : public Scene {
 private:
 	Cube* obj;
-	Snow* weather;
+	ModelInstance* instance;
 public:
 	Scene_Basic();
 	~Scene_Basic();
