@@ -202,6 +202,7 @@
     <ClCompile Include="Scenes\Scene_Basic.cpp" />
     <ClCompile Include="Scenes\Scene_Collision.cpp" />
     <ClCompile Include="Scenes\Scene_Grid.cpp" />
+    <ClCompile Include="Scenes\Scene_GUI.cpp" />
     <ClCompile Include="Scenes\Scene_Model.cpp" />
     <ClCompile Include="Scenes\Scene_ModelExport.cpp" />
     <ClCompile Include="Scenes\Scene_Terrain.cpp" />
@@ -275,6 +276,7 @@
     <ClInclude Include="Scenes\Scene_Basic.h" />
     <ClInclude Include="Scenes\Scene_Collision.h" />
     <ClInclude Include="Scenes\Scene_Grid.h" />
+    <ClInclude Include="Scenes\Scene_GUI.h" />
     <ClInclude Include="Scenes\Scene_Model.h" />
     <ClInclude Include="Scenes\Scene_ModelExport.h" />
     <ClInclude Include="Scenes\Scene_Terrain.h" />

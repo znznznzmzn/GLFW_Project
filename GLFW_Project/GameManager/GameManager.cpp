@@ -6,6 +6,7 @@
 #include "../Scenes/Scene_Terrain.h"
 #include "../Scenes/Scene_Model.h"
 #include "../Scenes/Scene_ModelExport.h"
+#include "../Scenes/Scene_GUI.h"
 
 GameManager::GameManager() {
 	Create(); // 환경 및 텍스쳐 초기 세팅
