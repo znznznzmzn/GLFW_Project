@@ -15,10 +15,12 @@ protected:
 
 	virtual void InitUniformBuffer() { }
 	virtual void SetUniformBuffer () { }
+	virtual void SetMeshInstance();
 
 	ModelInstance() = default;
 public:
 	ModelInstance(string model_name, uint instanceCount = 100);
+	~ModelInstance();
 
 	virtual void Render() override; // ±×¸®±â
 	virtual void GUIRender();

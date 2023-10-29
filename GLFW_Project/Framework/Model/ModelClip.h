@@ -2,6 +2,7 @@
 
 class ModelClip {
 	friend class ModelAnimator;
+	friend class ModelAnimatorInstance;
 	friend class ClipReader;
 private:
 	string name = "";

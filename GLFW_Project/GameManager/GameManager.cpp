@@ -12,9 +12,10 @@ GameManager::GameManager() {
 	
 	// ¾À »ý¼º, ¿©±â¼­ ¾ÀÀ» ¹Ù²ã°¡¸ç ¿À°£´Ù
 	SCENE->Create("Grid", new Scene_Grid());
-	SCENE->Create("Scene", new Scene_Basic());
-	//SCENE->Create("Scene", new Scene_Terrain());
+	//SCENE->Create("Scene", new Scene_Basic());
+	SCENE->Create("Scene", new Scene_GUI());
 	//SCENE->Create("Scene", new Scene_Collision());
+	//SCENE->Create("Scene", new Scene_Terrain());
 	//SCENE->Create("Scene", new Scene_Model());
 	//SCENE->Create("Scene", new Scene_ModelExport());
 

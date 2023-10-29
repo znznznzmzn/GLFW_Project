@@ -204,9 +204,7 @@ void ModelAnimator::PlayClip(uint clip, float speed, float takeTime) {
 
 Matrix ModelAnimator::GetTransformByNode(int nodeIndex) {
 	if (transformMapBuffer->texture_id == -1) return Matrix(1);
-
 	nodeIndex = Calc::Clamp(nodeIndex, 0, data->nodes.size() - 1);
-
 	Matrix curAnim;
 
 	{//CurAnim

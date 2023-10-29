@@ -1,6 +1,7 @@
 #pragma once
 
 class ModelAnimator : public Model {
+	friend class ModelAnimatorInstance;
 protected:
 	FrameBuffer* fBuffer = nullptr;
 

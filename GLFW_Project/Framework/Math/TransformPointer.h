@@ -52,6 +52,4 @@ public:
 	bool Active();
 
 	void SetTransformation(Transformation const& value) { local = value; }
-
-	void Register(Matrix* target) { targetWorld = target; }
 };

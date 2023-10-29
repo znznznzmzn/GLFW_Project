@@ -163,6 +163,7 @@
     <ClCompile Include="Framework\Render\ShaderProgram.cpp" />
     <ClCompile Include="GameObjects\Instancing\GameObjectInstance.cpp" />
     <ClCompile Include="GameObjects\Instancing\Instance.cpp" />
+    <ClCompile Include="GameObjects\Instancing\ModelAnimatorInstance.cpp" />
     <ClCompile Include="GameObjects\Instancing\ModelBoneInstance.cpp" />
     <ClCompile Include="GameObjects\Instancing\ModelInstance.cpp" />
     <ClCompile Include="GameObjects\Landscape\ColorSky.cpp" />

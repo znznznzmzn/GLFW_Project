@@ -7,8 +7,6 @@
 #define CENTER_X SCREEN_WIDTH / 2
 #define CENTER_Y SCREEN_HEIGHT / 2
 
-#define MAX_BONES 256
-
 #define FLOAT4_CLEAR_COLOR 0.2f, 0.2f, 0.2f, 1.0f
 
 #define SAFE_DELETE(PTR) if(PTR != nullptr) delete PTR; PTR = nullptr
@@ -108,6 +106,10 @@ extern Vector2 mousePos;
 
 using namespace std;
 typedef function<void()> Event;
+
+
+const uint MAX_BONES = 256;
+const uint MAX_FRAME_INSTANCE = 256;
 
 // Framework Header
  // Utility

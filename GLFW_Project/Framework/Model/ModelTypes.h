@@ -85,3 +85,8 @@ struct ModelData {
 		for (BoneData*& elem : bones    ) { SAFE_DELETE(elem); } bones    .clear();
 	}
 };
+
+struct InstanceData {
+	Matrix world = Matrix(1);
+	int index = 0;
+};

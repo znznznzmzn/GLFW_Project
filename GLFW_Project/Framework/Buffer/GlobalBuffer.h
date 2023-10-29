@@ -40,8 +40,8 @@ public:
 	struct Data {
 		Matrix View = Matrix(1.0f);
 		Matrix InverseView = Matrix(1.0f);
-	} data;
-	ViewBuffer() : GlobalBuffer("ViewBuffer", 0) { // 각 버퍼 슬롯은 달라야 한다
+	} data;	// 각 버퍼 슬롯은 달라야 한다
+	ViewBuffer() : GlobalBuffer("ViewBuffer", 0) { // slot : 0
 		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id); 
 		glBufferData(GL_UNIFORM_BUFFER, sizeof(data), NULL, GL_DYNAMIC_DRAW);
 		glBindBufferRange(GL_UNIFORM_BUFFER, buffer_slot, buffer_id, 0, sizeof(data));
@@ -56,7 +56,7 @@ public:
 class ProjectionBuffer : public GlobalBuffer { // Projection 1
 public:
 	struct Data { Matrix Projection = Matrix(1.0f); } data; 
-	ProjectionBuffer() : GlobalBuffer("ProjectionBuffer", 1) {
+	ProjectionBuffer() : GlobalBuffer("ProjectionBuffer", 1) { // slot : 1
 		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
 		glBufferData(GL_UNIFORM_BUFFER, sizeof(data), NULL, GL_DYNAMIC_DRAW);
 		glBindBufferRange(GL_UNIFORM_BUFFER, buffer_slot, buffer_id, 0, sizeof(data));
@@ -78,8 +78,8 @@ public:
 		Vector4 ambient_light   = Vector4(0.1f, 0.1f, 0.1f, 1.0f);
 		Vector4 ambient_ceil    = Vector4(0.1f, 0.1f, 0.1f, 1.0f);
 	} data;
-	GlobalLightBuffer() : GlobalBuffer("GlobalLightBuffer", 2) { //- Data가 변경될때만 Set시키기
-		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
+	GlobalLightBuffer() : GlobalBuffer("GlobalLightBuffer", 2) { // slot : 2
+		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id); //- Data가 변경될때만 Set시키기
 		glBufferData(GL_UNIFORM_BUFFER, sizeof(data), NULL, GL_STATIC_DRAW);
 		glBindBufferRange(GL_UNIFORM_BUFFER, buffer_slot, buffer_id, 0, sizeof(data));
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -102,8 +102,8 @@ public:
 		int hasSpecular = false;
 		int hasNormal   = false;
 	} data;
-	MaterialBuffer() : GlobalBuffer("MaterialBuffer", 3) {  //- Data가 변경될때만 Set시키기
-		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
+	MaterialBuffer() : GlobalBuffer("MaterialBuffer", 3) { // slot : 3
+		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id); //- Data가 변경될때만 Set시키기
 		glBufferData(GL_UNIFORM_BUFFER, sizeof(data), NULL, GL_STATIC_DRAW);
 		glBindBufferRange(GL_UNIFORM_BUFFER, buffer_slot, buffer_id, 0, sizeof(data));
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -128,10 +128,9 @@ public:
 		float tweenTime = 0.0f;
 		float runningTime = 0.0f;
 		float padding = 0.0f;
-		Frame cur;
-		Frame next;
+		Frame cur, next;
 	} data;
-	FrameBuffer() : GlobalBuffer("FrameBuffer", 4) {
+	FrameBuffer() : GlobalBuffer("FrameBuffer", 4) { // slot : 4
 		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id); // time 등을 계속 전송하므로 GL_STREAM_DRAW
 		glBufferData(GL_UNIFORM_BUFFER, sizeof(data), NULL, GL_STREAM_DRAW);
 		glBindBufferRange(GL_UNIFORM_BUFFER, buffer_slot, buffer_id, 0, sizeof(data));
@@ -144,7 +143,31 @@ public:
 	}
 };
 
-class SkyColorBuffer : public GlobalBuffer { // SkyColor 버퍼 5
+class FrameInstanceBuffer : public GlobalBuffer { // FrameInstance 버퍼 5
+public:
+	struct FrameInstance {
+		float takeTime = 0.2f;
+		float tweenTime = 0.0f;
+		float runningTime = 0.0f;
+		float padding = 0.0f;
+		FrameBuffer::Frame cur, next;
+		FrameInstance() { next.clip = -1; }
+	};
+	struct Data { FrameInstance frames[MAX_FRAME_INSTANCE]; } data;
+	FrameInstanceBuffer() : GlobalBuffer("FrameInstance", 5) {  // slot : 5
+		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id); // time 등을 계속 전송하므로 GL_STREAM_DRAW
+		glBufferData(GL_UNIFORM_BUFFER, sizeof(data), NULL, GL_STREAM_DRAW);
+		glBindBufferRange(GL_UNIFORM_BUFFER, buffer_slot, buffer_id, 0, sizeof(data));
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
+	void Set() override {
+		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
+		glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(data), &data);
+		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	}
+};
+
+class SkyColorBuffer : public GlobalBuffer { // SkyColor 버퍼 6
 public:
 	struct Data {
 		Vector3 centerColor = Vector3(0.3f, 0.3f, 0.3f);
@@ -152,9 +175,9 @@ public:
 		Vector3 apexColor = Vector3(0.0f, 0.4f, 0.9f);
 		float padding = 0.0f;
 	} data;
-	SkyColorBuffer() : GlobalBuffer("SkyColor", 5) { //- Data가 변경될때만 Set시키기
-		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
-		glBufferData(GL_UNIFORM_BUFFER, sizeof(data), NULL, GL_STATIC_DRAW);
+	SkyColorBuffer() : GlobalBuffer("SkyColor", 6) {  // slot : 6
+		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id); //- Data가 변경될때만 Set시키기
+		glBufferData(GL_UNIFORM_BUFFER, sizeof(data), NULL, GL_STATIC_DRAW); 
 		glBindBufferRange(GL_UNIFORM_BUFFER, buffer_slot, buffer_id, 0, sizeof(data));
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	}
@@ -166,7 +189,7 @@ public:
 }; // ; 안쓴거 실화냐?... 
 // 이 쌍노메걸로 5시간 잡아먹힌거 실화냐?...
 
-class WeatherBuffer : public GlobalBuffer { // WeatherBuffer 버퍼 6
+class WeatherBuffer : public GlobalBuffer { // WeatherBuffer 버퍼 7
 public: // Rain, Snow버퍼의 인수가 동일하기에 초기화만 다르게 세팅하고 동일하게 사용
 	struct Data {
 		Vector3 velocity = Vector3(0, 0, 0);
@@ -177,9 +200,9 @@ public: // Rain, Snow버퍼의 인수가 동일하기에 초기화만 다르게 세팅하고 동일하게 
 		Vector3 size = Vector3(0, 0, 0);
 		float turbulence = 0;
 	} data;
-	WeatherBuffer(const string& name) : GlobalBuffer(name, 6) { //- Data가 변경될때만 Set시키기
-		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id);
-		glBufferData(GL_UNIFORM_BUFFER, sizeof(data), NULL, GL_STATIC_DRAW);
+	WeatherBuffer(const string& name) : GlobalBuffer(name, 7) { // slot : 7
+		glBindBuffer(GL_UNIFORM_BUFFER, buffer_id); //- Data가 변경될때만 Set시키기
+		glBufferData(GL_UNIFORM_BUFFER, sizeof(data), NULL, GL_STATIC_DRAW); 
 		glBindBufferRange(GL_UNIFORM_BUFFER, buffer_slot, buffer_id, 0, sizeof(data));
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	}

@@ -48,7 +48,11 @@ void ModelInstance::AttachInstanceMatrix(uint start_index) {
 			glBindVertexArray(0);
 		}
 	}
+}
 
+void ModelInstance::SetMeshInstance() {
+	glBindBuffer(GL_ARRAY_BUFFER, matrix_buffer_id);
+	glBufferData(GL_ARRAY_BUFFER, instance_count * sizeof(Matrix), matrices.data(), GL_DYNAMIC_DRAW);
 }
 
 ModelInstance::ModelInstance(string model_name, uint instanceCount) : Instance(instanceCount) {
@@ -58,7 +62,10 @@ ModelInstance::ModelInstance(string model_name, uint instanceCount) : Instance(i
 		"Assets/GLSL/Universal/Universal.frag");
 	AttachInstanceMatrix();
 }
-
+ModelInstance::~ModelInstance() {
+	ClearModelMap();
+	SAFE_DELETE(data);
+}
 
 void ModelInstance::Render() {
 	if (!is_active) return;
@@ -67,8 +74,7 @@ void ModelInstance::Render() {
 		SetUniformBuffer();
 		for (ModelMesh*& mesh : elem.second) {
 			mesh->Set();
-			glBindBuffer(GL_ARRAY_BUFFER, matrix_buffer_id);
-			glBufferData(GL_ARRAY_BUFFER, instance_count * sizeof(Matrix), matrices.data(), GL_DYNAMIC_DRAW);
+			SetMeshInstance();
 			glDrawElementsInstanced(GL_TRIANGLES, mesh->GetIndexCount(), GL_UNSIGNED_INT, 0, instance_count);
 		}
 	}
