@@ -146,6 +146,7 @@ const uint MAX_FRAME_INSTANCE = 256;
  // Math
 #include "Framework/Math/Point.h"
 #include "Framework/Math/Calc.h"
+#include "Framework/Math/Rect.h"
 #include "Framework/Math/Transformation.h"
 #include "Framework/Math/TransformPointer.h"
 #include "Framework/Math/Transform.h"

@@ -2,6 +2,7 @@
 
 struct Vertex2D { // 2D용 - 아직 확실하게 구성은 불가(Rotation, Size등)
 	Vector2 pos;
+	Vector2 size;
 	Vector2 uv;
 	float rot;
 	Vertex2D() : pos(0, 0), uv(0, 0), rot(0) { }

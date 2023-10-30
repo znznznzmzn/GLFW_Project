@@ -11,12 +11,12 @@
 
 GameManager::GameManager() {
 	Create(); // 환경 및 텍스쳐 초기 세팅
-	
+
 	// 씬 생성, 여기서 씬을 바꿔가며 오간다
 	SCENE->Create("Grid", new Scene_Grid());
-	//SCENE->Create("Scene", new Scene_Basic());
-	SCENE->Create("Scene", new Scene_2D());
-	SCENE->Create("Scene", new Scene_GUI());
+	SCENE->Create("Scene", new Scene_Basic());
+	//SCENE->Create("Scene", new Scene_2D());
+	//SCENE->Create("Scene", new Scene_GUI());
 	//SCENE->Create("Scene", new Scene_Collision());
 	//SCENE->Create("Scene", new Scene_Terrain());
 	//SCENE->Create("Scene", new Scene_Model());
