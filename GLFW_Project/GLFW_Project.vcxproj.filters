@@ -198,6 +198,9 @@
     <ClCompile Include="Scenes\Scene_GUI.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Scenes\Scene_2D.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="glad\glad.h">
@@ -416,6 +419,9 @@
     <ClInclude Include="Scenes\Scene_GUI.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Scenes\Scene_2D.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="glfw3.dll" />
@@ -426,5 +432,6 @@
   <ItemGroup>
     <Library Include="Libraries\assimp\assimp-vc143-mtd.lib" />
     <Library Include="Libraries\ImGui\ImGui.lib" />
+    <Library Include="Libraries\FreeType\lib\freetype.lib" />
   </ItemGroup>
 </Project>

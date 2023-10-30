@@ -7,6 +7,7 @@
 #include "../Scenes/Scene_Model.h"
 #include "../Scenes/Scene_ModelExport.h"
 #include "../Scenes/Scene_GUI.h"
+#include "../Scenes/Scene_2D.h"
 
 GameManager::GameManager() {
 	Create(); // 환경 및 텍스쳐 초기 세팅
@@ -14,6 +15,7 @@ GameManager::GameManager() {
 	// 씬 생성, 여기서 씬을 바꿔가며 오간다
 	SCENE->Create("Grid", new Scene_Grid());
 	//SCENE->Create("Scene", new Scene_Basic());
+	SCENE->Create("Scene", new Scene_2D());
 	SCENE->Create("Scene", new Scene_GUI());
 	//SCENE->Create("Scene", new Scene_Collision());
 	//SCENE->Create("Scene", new Scene_Terrain());
@@ -37,17 +39,17 @@ void GameManager::Update() {
 
 void GameManager::Render() {
 	SCENE->PreRender();
-	glClearColor(FLOAT4_CLEAR_COLOR); 
+	glClearColor(FLOAT4_CLEAR_COLOR);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	ENVIRONMENT->Set(); 
+	ENVIRONMENT->Set();
 	SCENE->Render();
 	ENVIRONMENT->PostSet();
 	SCENE->PostRender();
-	ImGui_ImplOpenGL3_NewFrame(); 
-	ImGui_ImplGlfw_NewFrame(); 
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 	if (KEY_DOWN(ImGuiKey_F1)) EditorMode = !EditorMode;
-	if (EditorMode) { 
+	if (EditorMode) {
 		ImGui::Begin("Inspector", &EditorMode);
 		ENVIRONMENT->GUIRender();
 		SCENE->GUIRender();

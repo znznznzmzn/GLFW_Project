@@ -42,7 +42,7 @@ void ShaderProgram::Link() {
 	glLinkProgram(program_id);
 	if (Utility::CheckOK(program_id, GL_LINK_STATUS, "SHADER_PROGRAM::LINK_FAILED")) {
 		for (Shader* shader : attached_shaders)
-			cout << ">> " << shader->GetShaderPath() << endl;
+			cout << "> " << shader->GetShaderPath() << endl;
 		cout << ">> SHADER_PROGRAM::LINK_SUCCESS" << endl;
 	}
 }

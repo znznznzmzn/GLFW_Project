@@ -65,6 +65,9 @@
 #include <filesystem>
 #include <xaudio2.h>
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 // GL
 #include <GLEW/glew.h>
 #include <GLFW/glfw3.h>
